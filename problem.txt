@@ -1,0 +1,31 @@
+1. Basic Syntax and Operations
+2.
+Write a Python program to swap two variables without using a temporary variable.
+Create a program that takes a list of numbers and prints the sum, average, maximum, and minimum of the list.
+Write a Python program to check if a number is prime.
+Create a program that prints the Fibonacci sequence up to a given number of terms.
+
+3. Functions
+Write a function that takes a string and returns the string reversed.
+ Create a function that takes a list of numbers and returns a new list with only the even numbers.
+4. Data Structures
+ Implement a stack using a list in Python.
+ Write a Python program to merge two dictionaries.
+5. File Handling
+ Write a Python program to read a file line by line and store it into a list.
+ Create a program that writes a list of numbers to a file, one number per line.
+6. Object-Oriented Programming
+ Define a class Rectangle with attributes length and width, and methods to calculate the area and perimeter.
+ Create a class BankAccount with methods to deposit, withdraw, and check the balance.
+7. Modules and Packages
+ Write a Python program to use the math module to calculate the square root of a number.
+ Create a package with modules for basic arithmetic operations (addition, subtraction, multiplication, division).
+8. Exception Handling
+ Write a Python program that handles division by zero exception.
+ Create a program that reads a file and handles the exception if the file does not exist.
+9. Regular Expressions
+ Write a Python program to check if a string contains only numbers using regular expressions.
+ Create a program that finds all email addresses in a given text using regular expressions.
+10. Web Scraping
+ Write a Python program using BeautifulSoup to scrape the titles of articles from a news website.
+ Create a program that uses requests and BeautifulSoup to extract all the links from a webpage.
