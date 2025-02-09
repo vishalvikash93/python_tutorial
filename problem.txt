@@ -4,6 +4,34 @@ Write a Python program to swap two variables without using a temporary variable.
 Create a program that takes a list of numbers and prints the sum, average, maximum, and minimum of the list.
 Write a Python program to check if a number is prime.
 Create a program that prints the Fibonacci sequence up to a given number of terms.
+3. String
+    1.Reverse a String
+    Write a program that takes a string as input and prints the reversed string using slicing.
+    2.	Extract a Substring
+    Take a string and two indices as input. Print the substring from the given start index to the end index (excluding the end index).
+    3.	Check for Palindrome
+    Write a program to check whether the given string is a palindrome or not using slicing.
+    4.	Find and Replace a Word
+    Take a sentence and a word as input. If the word exists in the sentence, replace it with "Python", otherwise print "Word not found".
+    5.	Extract Every Second Character
+    Given a string, print every second character using slicing.
+    6.	Check First and Last Character
+    Take a string as input and check whether the first and last characters are the same (ignoring case).
+    7.	Convert First Letter of Each Word to Uppercase
+    Write a program that takes a sentence as input and prints the initials of each word in uppercase.
+4. List
+    1. How can you reverse a Python list?
+    2. How do you check if an item exists in a Python list?
+    3. What method would you use to concatenate two lists in Python?
+    4. How do you find the length of a list in Python?
+    5. How do you sort a list in Python, and what are the options for sorting (ascending vs descending)?
+    6. How would you remove duplicates from a Python list
+5. Tuple.
+    1.What is a tuple in Python, and how is it different from a list?
+    2. How do you create a tuple in Python?
+    3. Can you modify the elements of a tuple once it is created? Why or why not?
+    4. How do you access elements in a tuple?
+    5. How can you convert a tuple into a list and vice versa?
 
 3. Functions
 Write a function that takes a string and returns the string reversed.
