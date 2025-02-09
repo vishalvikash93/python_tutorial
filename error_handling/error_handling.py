@@ -1,7 +1,7 @@
 # Syntax
 try:
     # Try to divide by zero (which will raise an exception)
-    result = 10 / 0
+    result = 10 / 1
     print(f'result:{result}')
 except ZeroDivisionError:
     # Handle the specific exception (ZeroDivisionError)

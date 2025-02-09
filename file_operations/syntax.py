@@ -1,4 +1,5 @@
 file_object = open('filename', 'mode')
+file_object.close()
 
 
 # 'r': Read (default). Opens the file for reading.

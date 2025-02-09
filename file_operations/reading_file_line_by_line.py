@@ -1,6 +1,6 @@
-with open('example.txt', 'r') as file:
-    line = file.readline()  # Reads the first line   readline() reads one line at a time.
-    print(line)
+# with open('problem.txt', 'r') as file:
+#     line = file.readline()  # Reads the first line   readline() reads one line at a time.
+#     print(line)
 
 print('###################################')
 # readlines() returns a list of lines.

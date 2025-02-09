@@ -4,9 +4,9 @@ try:
 except FileNotFoundError:
     print("The file does not exist.")
     print("Tryng to create file")
-    # with open('nonexistent_file.txt', 'w') as file:
-    #     file.write("Hello, World!\n")
-    #     file.write("Welcome to file handling in Python.")
+    with open('nonexistent_file.txt', 'w') as file:
+        file.write("Hello, World!\n")
+        file.write("Welcome to file handling in Python.")
 except IOError:
     print("An error occurred while handling the file.")
 

@@ -8,7 +8,8 @@ Create a program that prints the Fibonacci sequence up to a given number of term
     1.Reverse a String
     Write a program that takes a string as input and prints the reversed string using slicing.
     2.	Extract a Substring
-    Take a string and two indices as input. Print the substring from the given start index to the end index (excluding the end index).
+    Take a string and two indices as input. Print the substring from the given
+     start index to the end index (excluding the end index).
     3.	Check for Palindrome
     Write a program to check whether the given string is a palindrome or not using slicing.
     4.	Find and Replace a Word
