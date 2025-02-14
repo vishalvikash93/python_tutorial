@@ -21,18 +21,18 @@
 # print(type(result))
 #
 # # //  floor division
-# x=21
-# y=5
-# result=x//y
+x=21
+y=5
+result=x//y
 # print(result)
 # print(type(result))
 #
 #
-# # ** power of number
-# k=3
-# j=2
+# ** power of number
+k=3
+j=5
 #
-# res=k**j
+res=k**j
 # print(res)
 #
 #
