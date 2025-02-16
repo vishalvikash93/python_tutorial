@@ -33,28 +33,42 @@ Create a program that prints the Fibonacci sequence up to a given number of term
     3. Can you modify the elements of a tuple once it is created? Why or why not?
     4. How do you access elements in a tuple?
     5. How can you convert a tuple into a list and vice versa?
+6. Set
+    1. Write a Python program to find the union of two sets.
+    Input:
+        Set A: {1, 2, 3, 4}
+        Set B: {3, 4, 5, 6}
+    2. Write a Python program to find the intersection of two sets.
+    Input:
+        Set A: {1, 2, 3, 4}
+        Set B: {3, 4, 5, 6}
+    3. Write a Python program to find the difference between two sets, i.e., elements that are in Set A but not in Set B.
+    Input:
+        Set A: {1, 2, 3, 4, 5}
+        Set B: {3, 4, 5, 6, 7}
+    4. Write a Python program to check if one set is a subset of another.
+    Input:
+        Set A: {1, 2, 3}
+        Set B: {1, 2, 3, 4, 5}
+7. Dictionary
+    1. Write a Python program to merge two dictionaries. If there are any common keys, their values should be summed.
+        Dictionary A: {'a': 10, 'b': 20}
+        Dictionary B: {'b': 30, 'c': 40}
+    2. Write a Python program to find the key with the highest value in a dictionary.
+        Dictionary: {'a': 5, 'b': 10, 'c': 3, 'd': 7}
+    3. Write a Python program to remove a key from a dictionary. If the key does not exist, handle it gracefully.
+        Dictionary: {'a': 1, 'b': 2, 'c': 3}
+        Key to remove: 'b'
+    4. Write a Python program to check if a key exists in a dictionary.
+        Dictionary: {'a': 100, 'b': 200}
+8. List comprehension
+    1. Write a Python program using list comprehension to generate a list of all odd numbers between 1 and 20.
+       Range: 1 to 20
+    2. Write a Python program using list comprehension to convert a list of temperatures from Celsius to Fahrenheit.
+       List of Celsius temperatures: [0, 10, 20, 30, 40]
+    3. Write a Python program using list comprehension to flatten a nested list.
+       Nested List: [[1, 2, 3], [4, 5], [6, 7]]
 
-3. Functions
+9. Functions
 Write a function that takes a string and returns the string reversed.
- Create a function that takes a list of numbers and returns a new list with only the even numbers.
-4. Data Structures
- Implement a stack using a list in Python.
- Write a Python program to merge two dictionaries.
-5. File Handling
- Write a Python program to read a file line by line and store it into a list.
- Create a program that writes a list of numbers to a file, one number per line.
-6. Object-Oriented Programming
- Define a class Rectangle with attributes length and width, and methods to calculate the area and perimeter.
- Create a class BankAccount with methods to deposit, withdraw, and check the balance.
-7. Modules and Packages
- Write a Python program to use the math module to calculate the square root of a number.
- Create a package with modules for basic arithmetic operations (addition, subtraction, multiplication, division).
-8. Exception Handling
- Write a Python program that handles division by zero exception.
- Create a program that reads a file and handles the exception if the file does not exist.
-9. Regular Expressions
- Write a Python program to check if a string contains only numbers using regular expressions.
- Create a program that finds all email addresses in a given text using regular expressions.
-10. Web Scraping
- Write a Python program using BeautifulSoup to scrape the titles of articles from a news website.
- Create a program that uses requests and BeautifulSoup to extract all the links from a webpage.
+Create a function that takes a list of numbers and returns a new list with only the even numbers.
