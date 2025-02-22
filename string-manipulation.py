@@ -43,6 +43,8 @@ result = text.swapcase()
 text = "Hello World"
 index = text.find("World")  # 6
 
+for i in text:
+    pass
 
 #Checking if a substring exists. python Copy code
 text = "Hello World Year"

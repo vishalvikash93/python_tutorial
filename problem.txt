@@ -1,9 +1,8 @@
 1. Basic Syntax and Operations
-2.
-Write a Python program to swap two variables without using a temporary variable.
-Create a program that takes a list of numbers and prints the sum, average, maximum, and minimum of the list.
-Write a Python program to check if a number is prime.
-Create a program that prints the Fibonacci sequence up to a given number of terms.
+2. Write a Python program to swap two variables without using a temporary variable.
+   Create a program that takes a list of numbers and prints the sum, average, maximum, and minimum of the list.
+   Write a Python program to check if a number is prime.
+   Create a program that prints the Fibonacci sequence up to a given number of terms.
 3. String
     1.Reverse a String
     Write a program that takes a string as input and prints the reversed string using slicing.
@@ -68,7 +67,11 @@ Create a program that prints the Fibonacci sequence up to a given number of term
        List of Celsius temperatures: [0, 10, 20, 30, 40]
     3. Write a Python program using list comprehension to flatten a nested list.
        Nested List: [[1, 2, 3], [4, 5], [6, 7]]
-
+9. Dict comprehension
+    1. Write a dictionary comprehension that creates a dictionary with even numbers from 1 to 20 as keys, and their squares as values.
+    2. Given a dictionary {1: 'a', 2: 'b', 3: 'c'}, use dictionary comprehension to swap the keys and values.
+    3. Given a string "interview", use dictionary comprehension to create a dictionary where the keys are the characters and the values are their frequencies in the string.
+    4. Given a dictionary {1: 10, 2: 15, 3: 20, 4: 25, 5: 30}, use dictionary comprehension to filter only the keys whose values are even.
 9. Functions
 Write a function that takes a string and returns the string reversed.
 Create a function that takes a list of numbers and returns a new list with only the even numbers.

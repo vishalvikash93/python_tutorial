@@ -1,18 +1,20 @@
-my_dict = {"key1": "value1", "key2": "value2", "key3": "value3"}
 
-#Accessing Values: Values are accessed by referencing their associated keys.
+
+my_dict = {"key1": "value1", "key2": "value2", "key3": "value3"}
+my_dict.update()
+
+# Accessing Values: Values are accessed by referencing their associated keys.
 my_dict = {"name": "Alice", "age": 25}
 print(my_dict["name"])  # Output: Alice
 
-
-#Uniqueness of Keys: Keys in a dictionary are unique.
+# Uniqueness of Keys: Keys in a dictionary are unique.
 # If you attempt to add a key that already exists, the existing value for that key will be updated.
 
 my_dict = {"name": "Alice", "age": 25}
 my_dict["age"] = 26  # Updates the value of "age"
 print(my_dict)  # Output: {'name': 'Alice', 'age': 26}
 
-#Data Types for Keys and Values:
+# Data Types for Keys and Values:
 # Keys: Can be any immutable type like strings, integers, or tuples.
 # Values: Can be any data type, including lists, dictionaries, or even other tuples.
 
@@ -22,14 +24,13 @@ my_dict = {
     (1, 2): "tuple"
 }
 
-#Adding or Updating Key-Value Pairs:
+# Adding or Updating Key-Value Pairs:
 # You can add a new key-value pair to a dictionary, or update an existing one by using the key.
 
 my_dict["city"] = "New York"  # Adding a new pair
 my_dict["age"] = 27
 
-
-#emoving Key-Value Pairs:
+# emoving Key-Value Pairs:
 # Use del or pop() to remove key-value pairs.
 # del removes a key-value pair by key:
 
@@ -39,24 +40,22 @@ del my_dict["city"]
 value = my_dict.pop("age")
 print(value)  # Output: 27
 
-#Accessing Keys, Values, and Items
-keys = my_dict.keys()      # Returns dict_keys(['name'])
+# Accessing Keys, Values, and Items
+keys = my_dict.keys()  # Returns dict_keys(['name'])
 values = my_dict.values()  # Returns dict_values(['Alice'])
 items = my_dict.items()
 
-
-#Checking for Existence of Keys:
+# Checking for Existence of Keys:
 # Use the in keyword to check if a key exists in a dictionary.
 if "name1" in my_dict:
     print("Name exists!")
 
-
-#Dictionary Comprehension:
+# Dictionary Comprehension:
 # You can create a dictionary using dictionary comprehension, similar to list comprehension.
-squares = {x: x**2 for x in range(5)}
+squares = {x: x ** 2 for x in range(5)}
 print(squares)  # Output: {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
 
-#final example
+# final example
 
 student = {
     "name": "John Doe",

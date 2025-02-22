@@ -1,5 +1,6 @@
 # syntax
-# def function_name(parameters):
-#     return result
+# def functionName(parameters):
+#     return "result"
+
 
 
