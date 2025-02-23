@@ -73,5 +73,13 @@
     3. Given a string "interview", use dictionary comprehension to create a dictionary where the keys are the characters and the values are their frequencies in the string.
     4. Given a dictionary {1: 10, 2: 15, 3: 20, 4: 25, 5: 30}, use dictionary comprehension to filter only the keys whose values are even.
 9. Functions
-Write a function that takes a string and returns the string reversed.
-Create a function that takes a list of numbers and returns a new list with only the even numbers.
+    1. Write a Python function called greet that takes a name as a parameter and prints out "Hello, <name>!" (e.g., greet("Shruti") should output "Hello, Shruti!").
+    2. Write a Python function sum_of_numbers that takes two numbers as arguments and returns their sum
+    3. Write a function calculate_area that calculates the area of a rectangle. It should take two arguments, length and width, with default values of 5 and 10, respectively. If no arguments are passed, it should use these default values.
+    4. Write a function introduce that accepts keyword arguments first_name and last_name and prints out a sentence "My name is Harsh Anand."
+    5. Write a function average that accepts any number of numeric arguments and returns their average. Use the *args syntax.
+    6. Write a lambda function that takes two arguments and returns their product. Use this lambda function to calculate the product of 4 and 5
+    7. Write a recursive Python function to calculate the factorial of a number n (i.e., n! = n * (n-1) * ... * 1)
+    8. Write a function even_numbers that takes a list of integers and returns a new list containing only the even numbers from the original list, using list comprehension.
+    9. Write a function that takes a string and returns the string reversed.
+    10.Create a function that takes a list of numbers and returns a new list with only the odd numbers.
