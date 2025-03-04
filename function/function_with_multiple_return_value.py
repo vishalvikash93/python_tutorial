@@ -1,7 +1,7 @@
 def get_stats(numbers):
     total = sum(numbers)
     average = total / len(numbers)
-    return total,average,numbers
+    return total,average
 
 lst=[10, 20, 30, 40]
 res= get_stats(lst)

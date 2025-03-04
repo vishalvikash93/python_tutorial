@@ -8,3 +8,4 @@ file_object.close()
 # 'b': Binary mode. Used to read/write binary files.
 # 'x': Exclusive creation. Creates a new file, but fails if the file already exists.
 # 't': Text mode (default). Used for text files.
+

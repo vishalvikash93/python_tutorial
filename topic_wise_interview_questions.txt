@@ -1,0 +1,38 @@
+List
+1.What is a list in Python? How is it different from tuples?
+    A list is an ordered, mutable collection of elements.
+    A tuple is similar but immutable.
+
+2. How do you create a list in Python?
+    my_list = [1, 2, 3, 4, 5]
+    empty_list = []
+
+3. How do you access elements in a list?
+    Using indexing: my_list[0]
+4. How do you add elements to a list?
+    append,insert,extend
+5. How do you remove elements from a list?
+    remove,pop, del
+6. How do you find the length of a list?
+    len(my_list)
+7. What is list comprehension? Provide an example
+    squares = [x**2 for x in range(10)]
+8. How do you filter a list using list comprehension?
+    evens = [x for x in my_list if x % 2 == 0]
+9. How do you sort a list?
+    sort,sorted
+10. How do you reverse a list?
+    reserve and list slicing
+11. How do you remove duplicates from a list?
+    using set
+12. How do you flatten a nested list?
+    nested_list = [[1, 2], [3, 4], [5, 6]]
+    flat_list = [item for sublist in nested_list for item in sublist]
+13. What is the difference between is and == for lists?
+    is checks if two lists reference the same object in memory.
+    checks if two lists have the same content.
+14. How do you merge two lists?
+    list1 = [1, 2, 3]
+    list2 = [4, 5, 6]
+    merged_list = list1 + list2
+15.

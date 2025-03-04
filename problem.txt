@@ -72,7 +72,21 @@
     2. Given a dictionary {1: 'a', 2: 'b', 3: 'c'}, use dictionary comprehension to swap the keys and values.
     3. Given a string "interview", use dictionary comprehension to create a dictionary where the keys are the characters and the values are their frequencies in the string.
     4. Given a dictionary {1: 10, 2: 15, 3: 20, 4: 25, 5: 30}, use dictionary comprehension to filter only the keys whose values are even.
-9. Functions
+10. High end function.
+    1. Write a Python program using map() to square each number in the given list
+    2. Given a list of lowercase strings, use map() to convert them to uppercase.
+    3. Find the length of each word in a list.
+    4. extract even numbers from a list.
+    5. Find words with length greater than 4.
+    6. Write a function to check if a number is prime and use filter() to extract prime numbers.
+    7. Sum of all elements in a list.
+    8. Find the maximum number in a list.
+    9. Find the product of all elements in a list.
+    10.Concatenate all strings in a list.
+    11. Given a list of numbers, first use map() to square them.
+        Then, use filter() to keep only the even squares.
+        Finally, use reduce() to find the sum of these even squares.
+11. Functions
     1. Write a Python function called greet that takes a name as a parameter and prints out "Hello, <name>!" (e.g., greet("Shruti") should output "Hello, Shruti!").
     2. Write a Python function sum_of_numbers that takes two numbers as arguments and returns their sum
     3. Write a function calculate_area that calculates the area of a rectangle. It should take two arguments, length and width, with default values of 5 and 10, respectively. If no arguments are passed, it should use these default values.

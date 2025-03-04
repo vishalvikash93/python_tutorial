@@ -1,24 +1,22 @@
 from operator import length_hint
 
 
-def add(a, b):
-    sum = a + b
-    # mul=a*b
-    # return sum,mul
-    return sum
+def add(*args):
+    print(f'args type:{type(args)}')
+    return list(args)
 
+
+res = add(1,6,3,5,7,'s',[2,4,2])
+print(res)
 
 def test(a,b,*args,**kwargs):
-    print(f'args type:{type(args)}')
-    print(f'args values :{args}')
-    print(f'a:{a}')
-    print(f'b:{b}')
+    x=10
+    print(x)
     print(kwargs)
+print(x)
+# test(2,5,2,5,7,24,53.29,90,fname="suman",lname="kumari")
 
-test(2,5,2,5,7,24,53.29,90,fname="suman",lname="kumari")
 
-# res = add(1, 4)
-# print(res)
 # Calling the function
 # sum_result = add(5, 3)
 # print(sum_result)  # Output: 8

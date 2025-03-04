@@ -1,10 +1,10 @@
-def greet(name="Guest",lname="",address=""):
+def greet(name="Guest"):
     print(f"Hello, {name}!")
 
 
 def greet1(**kwargs):
     print(f"kwargs type, {type(kwargs)}!")
-    print(f"kwargs, {kwargs}!")
+    print(f"kwargs, {kwargs} ")
     if kwargs.get('fname'):
         print(f'fname:{kwargs.get('fname')}')
     if kwargs.get('lname'):
@@ -15,4 +15,4 @@ def greet1(**kwargs):
 # # Calling the function without a value
 # greet()  # Output: Hello, Guest!
 
-greet1(fname="shruti",lname="babu",address="")
+greet1()
