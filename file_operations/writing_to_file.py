@@ -5,8 +5,8 @@ with open('example.txt', 'w') as file:
 
 
 # If you want to add content to the end of an existing file without overwriting it, use the a mode.
-with open('example.txt', 'a') as file:
-    file.write("\nAppended text to the file.")
+# with open('example.txt', 'a') as file:
+#     file.write("\nAppended text to the file.")
 #
 #
 #

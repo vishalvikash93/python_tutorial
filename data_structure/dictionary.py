@@ -6,7 +6,7 @@ my_dict.update()
 # Accessing Values: Values are accessed by referencing their associated keys.
 my_dict = {"name": "Alice", "age": 25}
 print(my_dict["name"])  # Output: Alice
-
+my_dict.get()
 # Uniqueness of Keys: Keys in a dictionary are unique.
 # If you attempt to add a key that already exists, the existing value for that key will be updated.
 
@@ -73,6 +73,10 @@ student["age"] = 21
 # Adding a new key-value pair
 student["GPA"] = 3.8
 
+res=student.items()
+# print(res)
+for i,j in res:
+    print(f'i:{i}, j:{j}')
 # Checking if a key exists
 if "is_graduated" in student:
     print("Graduation status exists.")  # Output: Graduation status exists.
