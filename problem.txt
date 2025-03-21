@@ -97,3 +97,40 @@
     8. Write a function even_numbers that takes a list of integers and returns a new list containing only the even numbers from the original list, using list comprehension.
     9. Write a function that takes a string and returns the string reversed.
     10.Create a function that takes a list of numbers and returns a new list with only the odd numbers.
+
+12. File Operations
+    1. Write a Python program to create a new text file called sample.txt and write "Hello, World!" into it.
+    2. Write a Python program to read the contents of sample.txt and print them to the console.
+    3. Modify your program to append the text "Welcome to Python file handling!" to sample.txt.
+    4. Write a program to read a file line by line and print each line.
+    5. Modify the above program to store all lines in a list and print them.
+    6. Write a function that reads a file and counts the number of lines in it.
+    7. Write a Python program to read only the first 5 lines of a file.
+    8. Write a Python program that reads a CSV file called employees.csv and prints all employee names.
+    9. Write a Python program that writes a dictionary of student marks into a JSON file named marks.json.
+    10. Read a JSON file called config.json and print its contents as a dictionary
+    11. Write a Python program to count the number of words in a given text file.
+    12. Write a function that searches for a specific word in a file and prints the line numbers where it appears.
+    13. Write a Python script that reads a large text file line by line using a generator function.
+    14. Write a program to find and replace a word in a text file.
+    15. Write a Python script that copies contents from one file to another.
+    16. Write a Python script to count the number of words in a text file.
+    17. Modify the script to count the frequency of each word in the file.
+    18. Write a program that finds and replaces a word in a file.
+    19. Write a Python program to merge two text files into a third file.
+    20. Write a script to copy the contents of one file to another.
+13. Generator.
+    1. Write a generator function countdown(n) that yields numbers from n to 0.
+    2. Create a generator even_numbers(n) that yields the first n even numbers.
+    3. Write a generator function fibonacci(n) that generates the first n Fibonacci numbers.
+    4. Create a generator square_numbers(n) that yields the square of numbers from 1 to n.
+    5. Write a generator char_generator() that yields each character from a given string one by one.
+    6. Implement a generator prime_numbers(limit) that yields all prime numbers up to limit
+    7. Modify the Fibonacci generator so that it stops when a number exceeds 1000.
+
+14. Decorator
+    1. Write a decorator uppercase_decorator that converts the output of a function to uppercase.
+    2. Implement a decorator execution_time_decorator that measures the execution time of a function.
+    3. Write a decorator repeat_decorator(n) that calls a function n times.
+    4. Create a decorator logger_decorator that logs function calls and their arguments.
+    5. Implement a decorator only_positive that raises an error if the function is called with negative numbers.
