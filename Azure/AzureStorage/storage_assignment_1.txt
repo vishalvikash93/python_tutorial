@@ -1,0 +1,22 @@
+1. Create a ADLS storage account with the name: yourname+yourdob+adls
+2. While making ensure it is in the resource group name: - yourname-Resource-Group and the region is US-east
+3. Try to change the soft delete time for 7 days to 10 days.
+4. Create a container name landing (publicly accessible)
+5. Create another container name raw private (publicly not accessible)
+6. Create a directory Practice-1 in both container
+7. Upload any text file in both container inside the Practice-1.
+8. Delete the file just uploaded
+9. Try to restore the deleted file.
+
+Question 2:
+
+1. Create a Blob storage account with the name: yourname+yourdob+stg
+2. While making ensure it is in the resource group name: - yourname-Resource-Group and the region is US-east
+3. Try to enable versioning.
+4. Create a container name landing (publicly accessible)
+5. Upload any text file in container created recently.
+6. Upload one more text file with giving folder path in azure blob storage account.
+7. Try to delete the folder and check if you are allowed to delete.
+8. Now try to delete the file directly without deleting the folder and check if folder also get deleted.
+
+
