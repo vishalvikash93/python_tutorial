@@ -134,3 +134,12 @@
     3. Write a decorator repeat_decorator(n) that calls a function n times.
     4. Create a decorator logger_decorator that logs function calls and their arguments.
     5. Implement a decorator only_positive that raises an error if the function is called with negative numbers.
+
+15. Given a string containing words separated by spaces, write a function to return the longest word. If multiple words have the same length, return the first one.
+16. Write a function that takes two dictionaries and merges them. If they have the same keys, the values should be added together (assuming values are numeric).
+17. Write a recursive function to compute the sum of digits of a given positive inte
+18. I have a list of integer not in sorted order I wanted  output like if there is any larger element on right side place that number jn place of that else place -1
+19. Find two numbers in an array that add up to a given target.
+20. Find the length of the longest substring without repeating characters.
+21. Given n-1 numbers from 1 to n, find the missing number.
+22. Implement a function to reverse a given string.
