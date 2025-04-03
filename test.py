@@ -1,42 +1,28 @@
-# def hex_of_negative_integer(n):
-#   if n >= 0:
-#     return hex(n)[2:].upper().zfill(16)  # Ensure 64-bit padding
-#
-#   num_bits = 32  # 64-bit representation
-#   max_val = 2 ** num_bits  # 2^64
-#   twos_complement = n + max_val  # Compute two's complement
-#
-#   return hex(twos_complement)[2:].upper().zfill(16)  # Convert to uppercase and pad to 16 hex digits
-#
-#
-# number = -2131965835
-# # number = 307815036
-# hex_value = hex_of_negative_integer(number)
-# print(hex_value)
+def sas_packed_decimal(num: str) -> str:
+    """
+    Converts a numeric string to SAS $HX16. Packed Decimal (BCD) format.
+    """
+    # Ensure input is a string and pad to an even length
+    num = str(num)
+    if len(num) % 2 != 0:
+        num = "0" + num  # Ensure even number of digits
 
-# 80ECC8752CEE2BC4
+    packed_bytes = bytearray()
+
+    # Convert two digits at a time into a single packed byte
+    for i in range(0, len(num) - 1, 2):
+        packed_byte = (int(num[i]) << 4) + int(num[i + 1])
+        packed_bytes.append(packed_byte)
+
+    # Handle the last digit with the sign nibble (C for positive, D for negative)
+    last_digit = int(num[-1]) | 0xC0  # 0xC0 for positive, 0xD0 for negative
+    packed_bytes.append(last_digit)
+
+    return packed_bytes.hex().upper()
 
 
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, expr, format_string
+# Test case
+liabnum = "11267834931775462689"
+hex_result = sas_packed_decimal(liabnum)
 
-# Initialize Spark session
-spark = SparkSession.builder.appName("HexConversion").getOrCreate()
-
-# Sample DataFrame with integer column `KEY`
-data = [(-2131965835,), (307815036,), (-1,)]
-df = spark.createDataFrame(data, ["KEY"])
-
-# Convert negative numbers to 64-bit two's complement hex representation
-df = df.withColumn(
-    "HEX_KEY",
-    expr("""
-        CASE
-            WHEN KEY >= 0 THEN lpad(upper(hex(KEY)), 16, '0')
-            ELSE lpad(upper(hex(KEY + POWER(2, 64))), 16, '0')
-        END
-    """)
-)
-
-# Show results
-df.show(truncate=False)
+print(hex_result)  # Expected Output: "F9C3F5C6F6F4F2C2"

@@ -1,11 +1,15 @@
 class Account:
-    def __init__(self, owner, balance=0):
-        self.owner = owner
-        self.__balance = balance  # Private attribute (indicated by __)
+    def __init__(self, owner, balance):
+        self.owner = owner # Public accessible anywhere
+        self.__balance  = balance  # Private attribute (indicated by __)
+        self._x=100 # protected
 
     # Getter method to access private balance
     def get_balance(self):
         return self.__balance
+
+    def get_new_balance(self):
+        return self.newBalance
 
     # Setter method to modify the private balance
     def deposit(self, amount):
@@ -21,9 +25,11 @@ class Account:
             print("Invalid withdrawal amount.")
 
 # Creating an object of Account
-account = Account("John Doe", 1000)
+account = Account("kriti", 1000)
+
+print(account.get_new_balance())
 # account=10001
-print(account.withdraw(1010))
+# print(account.withdraw(1010))
 # Accessing the balance through the getter method
 # print(account.get_balance())  # Outputs: 1000
 #

@@ -1,6 +1,8 @@
 # syntax
-# def functionName(parameters):
-#     return "result"
+
+# def withdrawMoney(amount):
+#     if amount is valid:
+
 
 
 

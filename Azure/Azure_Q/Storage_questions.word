@@ -1,0 +1,27 @@
+1. What is the difference between Azure Blob Storage and Azure Data Lake Storage (ADLS)?
+    Azure Data Lake Storage is a high-performance, secure data lake designed for big data analytics workloads.
+    ADLS Gen2 builds on Azure Blob Storage and adds features such as hierarchical namespace, fine-grained access control,
+    and optimized performance for analytics.
+2. Explain the concept of "Access Tiers" in Azure Blob Storage.
+    Access Tiers in Azure Blob Storage define the cost and performance characteristics of the storage based on how often data is accessed.
+    There are three tiers:
+    Hot: Optimized for frequently accessed data.
+    Cool: Optimized for infrequent access but requires lower storage costs.
+    Archive: Designed for rarely accessed data and has the lowest cost but higher access latency.
+3. How does Azure Storage handle data redundancy?
+    Azure Storage offers several redundancy options:
+        Locally Redundant Storage (LRS)
+        Geo-Redundant Storage (GRS)
+        Zone-Redundant Storage (ZRS)
+        Read-Access Geo-Redundant Storage (GZRS)
+4. What is Azure Storage, and what are the different types of storage available in Azure?
+   Azure Storage is a cloud-based storage solution that provides scalable and secure storage for various data types. The different types of storage include:
+    Azure Blob/ADLS
+    Azure File Share
+    Azure Queue
+    Azure Table
+
+5. Explain the concept of "Soft Delete" in Azure Blob Storage.
+    Soft Delete is a feature that allows you to recover blobs that have been deleted. When Soft Delete is enabled, deleted blobs are
+    retained for a configured retention period, allowing you to recover them within that period.
+

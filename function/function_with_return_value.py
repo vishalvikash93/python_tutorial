@@ -1,9 +1,14 @@
-def multiply(x, y):
+def multiply(x):
+    y=5
     res=x * y
+    print(f"multiplication value is :{res}")
     return res
 
+def demo(z):
+    print(f"value received is :{z}")
 a=4
-b=6
 # Calling the function
-product = multiply(a,b)
-print(product)  # Output: 28
+print(multiply(a))
+# print(product)  # Output: 20
+# demo(product)
+

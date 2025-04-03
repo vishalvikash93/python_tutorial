@@ -9,7 +9,6 @@
 9. Try to restore the deleted file.
 
 Question 2:
-
 1. Create a Blob storage account with the name: yourname+yourdob+stg
 2. While making ensure it is in the resource group name: - yourname-Resource-Group and the region is US-east
 3. Try to enable versioning.
@@ -18,5 +17,3 @@ Question 2:
 6. Upload one more text file with giving folder path in azure blob storage account.
 7. Try to delete the folder and check if you are allowed to delete.
 8. Now try to delete the file directly without deleting the folder and check if folder also get deleted.
-
-

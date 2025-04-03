@@ -46,3 +46,5 @@ print(f"Bird movement: {bird.move()}")  # Outputs: Bird movement: Fly
 # Animal is an abstract class (it cannot be instantiated directly) and has two abstract methods: sound() and move().
 # Dog and Bird are concrete subclasses that provide implementations for the sound() and move() methods.
 # The user of the class only needs to know about the sound() and move() methods, without being concerned about how they are implemented.
+
+

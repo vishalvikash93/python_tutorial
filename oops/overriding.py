@@ -3,12 +3,10 @@ class Animal:
         print("Animal speaks")
 
 class Dog(Animal):
-    # pass
-    def method1(self):
+    def speak(self):
         print("Dog barks")
 
 class Cat(Animal):
-    pass
     def speak(self):
         print("Cat meows")
 
@@ -16,14 +14,24 @@ class Cat(Animal):
 # A.speak()
 # # Creating instances of Dog and Cat
 dog = Dog()
+dog.speak()
 cat = Cat()
-#
-# # Polymorphism: Both objects respond to the same method in their own way
-# dog.speak()  # Outputs: Dog barks
-cat.speak()  # Outputs: Cat meows
+cat.speak()
 
 
 
+class Car:
+    def safety_type(self):
+        print("")
 
+class Audi(Car):
+    def safety_type(self):
+        print("")
+        1,2,3,4,5
+
+class Maruti(Car):
+    def safety_type(self):
+        print("")
+        1,2
 
 
