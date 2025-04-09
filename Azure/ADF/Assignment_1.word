@@ -1,0 +1,4 @@
+Create a new Azure SQL DB with the name 'practice+Yourname+sql+DB' inside your resource group.
+Keep the Sample Db included while creating this Db.
+You need to create a new DB server as well while creating this Database.
+Remark: Ensure you are choosing the Basic tier while making the DB, to have low cost.
