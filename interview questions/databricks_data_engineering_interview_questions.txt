@@ -15,14 +15,6 @@ DATABRICKS INTERVIEW QUESTIONS FOR DATA ENGINEERS - TOPIC WISE
 4. What is a Databricks workspace?
    It is a collaborative environment containing notebooks, files, jobs, queries, dashboards, and compute access.
 
-5. How is Databricks related to Apache Spark?
-   Databricks provides a managed platform and optimized runtimes around Spark plus additional governance,
-   orchestration, SQL, storage, and operational features.
-
-6. When is Databricks a good choice?
-   For scalable transformations, lakehouse tables, streaming, collaborative analytics, and governed data products.
-
-
 2. PLATFORM ARCHITECTURE
 ------------------------
 1. What are the control plane and compute plane?
