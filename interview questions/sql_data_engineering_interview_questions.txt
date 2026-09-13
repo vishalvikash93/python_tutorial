@@ -1,0 +1,443 @@
+SQL INTERVIEW QUESTIONS FOR DATA ENGINEERS - TOPIC WISE
+========================================================
+
+1. SQL FUNDAMENTALS
+-------------------
+1. What is SQL?
+   SQL is a language for defining, querying, modifying, and controlling relational data.
+
+2. What are DDL, DML, DQL, DCL, and TCL?
+   DDL defines objects; DML changes data; DQL queries data; DCL controls access; TCL manages transactions.
+
+3. What is a table?
+   A table stores rows with a defined set of columns.
+
+4. What is a primary key?
+   A column or column set that uniquely identifies each row and disallows nulls.
+
+5. What is a foreign key?
+   A constraint linking child values to a key in another or the same table.
+
+6. What is a composite key?
+   A key made from multiple columns.
+
+7. What is a candidate key?
+   A minimal column set capable of uniquely identifying a row.
+
+8. What is normalization?
+   Organizing data to reduce redundancy and update anomalies.
+
+9. What is denormalization?
+   Intentionally adding redundancy to simplify reads or improve analytical performance.
+
+
+2. SELECT AND FILTERING
+-----------------------
+1. What is the logical query-processing order?
+   Commonly FROM/JOIN, WHERE, GROUP BY, HAVING, SELECT, DISTINCT, ORDER BY, and LIMIT.
+
+2. What is the difference between WHERE and HAVING?
+   WHERE filters rows before aggregation; HAVING filters groups after aggregation.
+
+3. What does DISTINCT do?
+   It removes duplicate combinations from selected columns.
+
+4. What does ORDER BY do?
+   It sorts the final result. Without it, row order is not guaranteed.
+
+5. What does LIMIT do?
+   It restricts returned rows; equivalent syntax varies by database.
+
+6. What is BETWEEN?
+   An inclusive range condition.
+
+7. What are IN and NOT IN?
+   Membership predicates. NOT IN can produce unknown results when its list/subquery contains NULL.
+
+8. What is LIKE?
+   Pattern matching using wildcards such as % and _.
+
+9. Why avoid SELECT * in production?
+   It reads unnecessary columns and makes interfaces fragile when schemas change.
+
+
+3. NULL HANDLING
+----------------
+1. What is NULL?
+   NULL represents missing or unknown information.
+
+2. How do you test for NULL?
+   Use IS NULL or IS NOT NULL, not = NULL.
+
+3. What does COALESCE do?
+   It returns the first non-null expression.
+
+4. What is NULLIF?
+   It returns NULL when two expressions are equal; otherwise it returns the first expression.
+
+5. How do aggregates handle NULL?
+   Most ignore NULL. COUNT(*) counts rows, while COUNT(column) ignores null values.
+
+6. What is three-valued logic?
+   SQL predicates can evaluate to TRUE, FALSE, or UNKNOWN because of NULL.
+
+
+4. JOINS
+--------
+1. What does INNER JOIN return?
+   Rows that satisfy the join condition on both sides.
+
+2. What does LEFT JOIN return?
+   Every left row plus matching right values; unmatched right values become NULL.
+
+3. What does FULL OUTER JOIN return?
+   Matches plus unmatched rows from both sides.
+
+4. What is a CROSS JOIN?
+   Every combination of left and right rows.
+
+5. What is a self join?
+   A table joined to itself using aliases.
+
+6. What is a semi join?
+   Left rows for which a match exists, without returning right-side columns.
+
+7. What is an anti join?
+   Left rows for which no match exists.
+
+8. Why can a join multiply rows?
+   Duplicate join keys create one-to-many or many-to-many matches.
+
+9. How can unmatched rows be found portably?
+   LEFT JOIN and filter a non-nullable right key IS NULL, or use NOT EXISTS.
+
+10. Why is NOT EXISTS often safer than NOT IN?
+    NOT EXISTS avoids NOT IN's surprising NULL behavior.
+
+
+5. AGGREGATIONS
+----------------
+1. What does GROUP BY do?
+   It creates groups so aggregate functions return one result per grouping combination.
+
+2. Name common aggregate functions.
+   COUNT, SUM, AVG, MIN, and MAX.
+
+3. How do you count distinct values?
+   COUNT(DISTINCT column).
+
+4. Can a SELECT column be omitted from GROUP BY?
+   Normally it must be aggregated or grouped; vendor-specific extensions should not be relied upon.
+
+5. What are ROLLUP and CUBE?
+   ROLLUP creates hierarchical subtotals; CUBE creates subtotals across all dimension combinations.
+
+6. What are grouping sets?
+   Explicitly selected grouping combinations calculated in one query.
+
+7. How do you avoid division by zero?
+   Divide by NULLIF(denominator, 0), then handle NULL according to business rules.
+
+
+6. SUBQUERIES AND CTES
+----------------------
+1. What is a subquery?
+   A query nested inside another SQL statement.
+
+2. What is a correlated subquery?
+   A subquery referencing values from its outer query.
+
+3. What is a CTE?
+   A named query expression defined with WITH for use in the following statement.
+
+4. Is a CTE always materialized?
+   No. Optimizer behavior depends on the database and query.
+
+5. What is a recursive CTE?
+   A CTE that references itself to process hierarchies or iterative relationships.
+
+6. CTE versus temporary table?
+   A CTE is statement-scoped; a temporary table persists for a session/transaction and may be indexed or reused.
+
+7. EXISTS versus IN?
+   Both express membership; performance depends on optimization, while NULL semantics can differ for negation.
+
+
+7. WINDOW FUNCTIONS
+--------------------
+1. What is a window function?
+   It calculates across related rows while retaining row-level output.
+
+2. What does PARTITION BY do?
+   It divides rows into independent windows.
+
+3. What does ORDER BY inside OVER do?
+   It defines sequence for ranking, offsets, and cumulative calculations.
+
+4. ROW_NUMBER versus RANK versus DENSE_RANK?
+   ROW_NUMBER is unique; RANK leaves gaps after ties; DENSE_RANK does not.
+
+5. What do LAG and LEAD do?
+   They access previous or following row values.
+
+6. How do you calculate a running total?
+   SUM(value) OVER(PARTITION BY key ORDER BY date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW).
+
+7. How do you keep the latest row per key?
+   Apply ROW_NUMBER partitioned by key and ordered by update time descending, then keep row number 1.
+
+8. ROWS versus RANGE?
+   ROWS uses row positions; RANGE groups/order-bounds by ordering values.
+
+
+8. SET OPERATIONS
+-----------------
+1. UNION versus UNION ALL?
+   UNION removes duplicates; UNION ALL retains them and is usually cheaper.
+
+2. What does INTERSECT do?
+   It returns rows common to both queries.
+
+3. What does EXCEPT/MINUS do?
+   It returns left-query rows absent from the right query.
+
+4. What must set-operation queries have in common?
+   Compatible column counts, positions, and data types.
+
+
+9. DDL, DML, AND TRANSACTIONS
+------------------------------
+1. DELETE versus TRUNCATE versus DROP?
+   DELETE removes selected rows; TRUNCATE removes all rows efficiently; DROP removes the object. Transactional
+   behavior varies by database.
+
+2. What does INSERT do?
+   It adds rows.
+
+3. What does UPDATE do?
+   It modifies existing rows matching a condition.
+
+4. What does MERGE do?
+   It conditionally inserts, updates, or deletes based on source-target matches.
+
+5. What are ACID properties?
+   Atomicity, Consistency, Isolation, and Durability.
+
+6. What are COMMIT and ROLLBACK?
+   COMMIT makes a transaction permanent; ROLLBACK reverses uncommitted work.
+
+7. What is a savepoint?
+   A marker allowing partial rollback inside a transaction.
+
+8. What is transaction isolation?
+   Rules controlling how concurrent transactions observe one another's changes.
+
+9. What are dirty, non-repeatable, and phantom reads?
+   Reading uncommitted data, seeing a row change between reads, and seeing matching rows appear/disappear.
+
+
+10. CONSTRAINTS AND DATABASE OBJECTS
+------------------------------------
+1. What constraints are common?
+   PRIMARY KEY, FOREIGN KEY, UNIQUE, NOT NULL, CHECK, and DEFAULT.
+
+2. What is a view?
+   A stored query presenting data without normally storing its result.
+
+3. What is a materialized view?
+   A physically stored query result refreshed according to database capabilities.
+
+4. What is an index?
+   A data structure that speeds selected lookups at the cost of storage and write maintenance.
+
+5. Clustered versus nonclustered index?
+   A clustered index controls physical row organization in systems supporting it; a nonclustered index is separate.
+
+6. What is a stored procedure?
+   A named database-side program containing SQL and procedural logic.
+
+7. What is a trigger?
+   Logic automatically executed for configured database events; use carefully because behavior can be hidden.
+
+
+11. STRING, DATE, AND CONDITIONAL LOGIC
+---------------------------------------
+1. What does CASE do?
+   It returns values based on ordered conditions.
+
+2. How do you concatenate strings?
+   Use CONCAT or a vendor-specific operator.
+
+3. How do you remove whitespace?
+   Use TRIM, LTRIM, or RTRIM.
+
+4. How do you extract part of a string?
+   Use SUBSTRING/SUBSTR.
+
+5. How do you get the current date or timestamp?
+   Use CURRENT_DATE and CURRENT_TIMESTAMP where supported.
+
+6. Why use half-open timestamp ranges?
+   timestamp >= start AND timestamp < next_start avoids end-of-day precision errors.
+
+7. Why store timestamps in UTC?
+   It provides a consistent reference across regions; convert for presentation.
+
+
+12. DATA WAREHOUSING
+---------------------
+1. What is a fact table?
+   A table containing measurable events at a declared grain.
+
+2. What is a dimension table?
+   Descriptive attributes used to filter and group facts.
+
+3. What is grain?
+   The exact business meaning represented by one row.
+
+4. Star versus snowflake schema?
+   A star has denormalized dimensions; a snowflake normalizes dimensions into related tables.
+
+5. What is a surrogate key?
+   A system-generated dimension key independent of the source business key.
+
+6. What is a degenerate dimension?
+   A business identifier stored in a fact table without a separate dimension.
+
+7. What is a conformed dimension?
+   A consistently defined dimension shared across subject areas.
+
+8. What is SCD Type 1?
+   Overwrite old dimension attributes without retaining history.
+
+9. What is SCD Type 2?
+   Insert a new version with effective dates/current flags to preserve history.
+
+10. What is an accumulating snapshot fact?
+    A fact row updated as a process passes through milestones.
+
+
+13. QUERY PERFORMANCE
+----------------------
+1. How do you investigate a slow query?
+   Inspect its execution plan, scans, joins, cardinality estimates, sorting, spills, data volume, and concurrency.
+
+2. What is a full table scan?
+   Reading an entire table or partition set because no effective pruning/access path is used.
+
+3. What is predicate pushdown?
+   Applying filters close to the data source to reduce rows read.
+
+4. What is partition pruning?
+   Skipping partitions that cannot satisfy filters.
+
+5. What is a sargable predicate?
+   A predicate that allows an index or efficient data skipping, such as date_col >= constant.
+
+6. Why can functions on filtered columns hurt performance?
+   They may prevent indexes or partition pruning; use equivalent range predicates when possible.
+
+7. Why can SELECT DISTINCT hide a bug?
+   It may mask an incorrect join while adding an expensive deduplication.
+
+8. Why are statistics important?
+   Optimizers use them to estimate cardinality and choose join/access strategies.
+
+9. What is data skew?
+   Highly uneven key frequencies that create unbalanced work.
+
+10. Should indexes be added to every column?
+    No. Indexes consume space and slow writes; choose them from measured query patterns.
+
+
+14. DATA-ENGINEERING SCENARIOS
+-------------------------------
+1. How do you find duplicate keys?
+   GROUP BY key HAVING COUNT(*) > 1.
+
+2. How do you delete duplicates safely?
+   Define the correct survivor with ROW_NUMBER, validate results, then delete/replace transactionally.
+
+3. How do you compare source and target?
+   Compare counts, key coverage, nulls, duplicates, checksums/totals, and sampled row-level differences.
+
+4. How do you implement an incremental load?
+   Use CDC or a reliable watermark, process a bounded range, write idempotently, and advance state after success.
+
+5. How do you handle late-arriving updates?
+   Use overlap windows, CDC positions, periodic reconciliation, and deterministic upserts.
+
+6. How do you process deletes?
+   Consume delete events/tombstones or compare snapshots, then apply an explicit hard- or soft-delete policy.
+
+7. How do you build SCD Type 2?
+   Detect changed attributes, expire the current row, and insert a new version with effective dates.
+
+8. A join doubles revenue. What do you inspect?
+   Table grain and key uniqueness on both sides before aggregation.
+
+9. How do you calculate month-over-month growth?
+   Aggregate monthly values, use LAG, then calculate (current - previous) / NULLIF(previous, 0).
+
+10. How do you find gaps in dates or IDs?
+    Compare each value with LAG/LEAD or join against a generated complete sequence.
+
+
+15. DATABRICKS SQL
+-------------------
+1. What is a Databricks SQL warehouse?
+   Compute optimized for Databricks SQL and BI workloads.
+
+2. What is the three-part table name?
+   catalog.schema.table.
+
+3. How do you inspect query execution?
+   Use EXPLAIN and the Databricks query profile/history.
+
+4. What is a Delta table?
+   A table backed by Delta Lake's transaction log and data files.
+
+5. What does DESCRIBE HISTORY show?
+   Delta table versions and operations.
+
+6. What do OPTIMIZE and VACUUM do?
+   OPTIMIZE improves file layout; VACUUM removes old unreferenced files outside retention.
+
+7. How are permissions granted?
+   Use Unity Catalog GRANT statements, preferably granting roles to groups.
+
+8. How can SQL warehouse cost be controlled?
+   Auto-stop, right-sizing, scaling limits, query optimization, and workload monitoring.
+
+
+16. RAPID CODING QUESTIONS
+---------------------------
+1. Second-highest distinct salary?
+   Use DENSE_RANK ordered by salary descending and keep rank 2.
+
+2. Top three products per category?
+   Use ROW_NUMBER or DENSE_RANK partitioned by category and filter rank <= 3.
+
+3. Employees earning above department average?
+   Compare salary with AVG(salary) OVER(PARTITION BY department_id).
+
+4. Customers with no orders?
+   Use NOT EXISTS or a left anti join.
+
+5. Running account balance?
+   SUM(amount) OVER(PARTITION BY account ORDER BY transaction_time, transaction_id).
+
+6. First and last event per user?
+   Use ROW_NUMBER with ascending and descending order, or suitable FIRST_VALUE/LAST_VALUE frames.
+
+7. Consecutive-day activity?
+   Use date minus ROW_NUMBER to create islands, then group.
+
+8. Percentage contribution to total?
+   value / NULLIF(SUM(value) OVER(), 0).
+
+9. Conditional aggregation?
+   SUM(CASE WHEN condition THEN value ELSE 0 END).
+
+10. Pivot rows into columns?
+    Use PIVOT when supported or conditional aggregation.

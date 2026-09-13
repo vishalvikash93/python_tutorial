@@ -1,0 +1,775 @@
+PYSPARK INTERVIEW QUESTIONS FOR DATA ENGINEERS - TOPIC WISE
+============================================================
+
+1. APACHE SPARK AND PYSPARK BASICS
+----------------------------------
+1. What is Apache Spark?
+   Spark is a distributed computing engine for large-scale batch processing, streaming, SQL, and machine learning.
+
+2. What is PySpark?
+   PySpark is Spark's Python API.
+
+3. Why is Spark faster than traditional MapReduce for many workloads?
+   Spark builds optimized execution plans and can reuse in-memory data instead of writing every intermediate result
+   to disk.
+
+4. What are Spark's main modules?
+   Spark Core, Spark SQL, Structured Streaming, MLlib, and GraphX. GraphX does not have a full native Python API.
+
+5. When should Spark not be used?
+   Avoid it for small data that fits easily on one machine, low-latency transactional processing, or simple tasks
+   where distributed-computing overhead is greater than the benefit.
+
+6. What is a Spark application?
+   It is one driver process plus executors that run tasks for that application.
+
+7. What is the driver?
+   The driver runs the user program, creates the Spark session/context, builds plans, and schedules work.
+
+8. What is an executor?
+   An executor is a worker process that runs tasks and stores cached or shuffle data for one Spark application.
+
+9. What is a cluster manager?
+   It allocates resources to Spark applications. Examples include standalone, YARN, and Kubernetes.
+
+10. What is SparkSession?
+    SparkSession is the main entry point for DataFrame, SQL, catalog, and configuration operations.
+
+
+2. SPARK EXECUTION MODEL
+------------------------
+1. What is a job in Spark?
+   An action creates one or more jobs.
+
+2. What is a stage?
+   A stage is a group of tasks that can execute without crossing a shuffle boundary.
+
+3. What is a task?
+   A task is the smallest unit of scheduled work, normally processing one partition.
+
+4. What is a partition?
+   A partition is a logical chunk of distributed data processed by one task at a time.
+
+5. What is lazy evaluation?
+   Spark records transformations and waits for an action before executing them.
+
+6. Why does Spark use lazy evaluation?
+   It lets Spark optimize the complete plan and avoid unnecessary work.
+
+7. What is a DAG?
+   A directed acyclic graph represents dependencies between transformations and execution stages.
+
+8. What creates a stage boundary?
+   A shuffle operation normally creates a new stage.
+
+9. What is a shuffle?
+   A shuffle redistributes data between executors, often for joins, groupBy, distinct, or repartition.
+
+10. Why are shuffles expensive?
+    They involve network transfer, serialization, disk I/O, sorting, and additional memory pressure.
+
+
+3. RDD, DATAFRAME, AND DATASET
+------------------------------
+1. What is an RDD?
+   An RDD is an immutable distributed collection with low-level transformation and action APIs.
+
+2. What is a DataFrame?
+   A DataFrame is distributed tabular data with named columns and a schema.
+
+3. Why are DataFrames usually preferred over RDDs?
+   DataFrames provide schema information and allow Catalyst and Tungsten to optimize execution.
+
+4. Does PySpark have the typed Dataset API?
+   Python mainly uses DataFrames. The strongly typed Dataset API is available in Scala and Java.
+
+5. When might an RDD be useful?
+   For specialized low-level transformations or unstructured objects that do not fit DataFrame operations.
+
+6. Are Spark DataFrames immutable?
+   Yes. Transformations return new DataFrames instead of modifying existing ones.
+
+7. What is Row in PySpark?
+   Row represents a record with fields that can be accessed by name or position.
+
+
+4. CREATING AND READING DATAFRAMES
+----------------------------------
+1. How do you create a DataFrame from Python data?
+   Use spark.createDataFrame(data, schema).
+
+2. How do you read a CSV file?
+   Use spark.read.option("header", True).schema(schema).csv(path).
+
+3. Why should production pipelines avoid inferSchema?
+   Inference adds a scan, can infer inconsistent types, and weakens the data contract.
+
+4. How do you read Parquet or Delta data?
+   Use spark.read.parquet(path) or spark.read.format("delta").load(path).
+
+5. What is the difference between load(path) and table(name)?
+   load reads files at a path. table reads a catalog-registered table.
+
+6. How do you read multiple files?
+   Pass a list of paths or use a supported path pattern.
+
+7. How can corrupt records be handled?
+   Configure parsing mode and a corrupt-record column, or quarantine invalid input explicitly.
+
+8. What are common parsing modes?
+   PERMISSIVE, DROPMALFORMED, and FAILFAST. Exact support can vary by data source.
+
+
+5. SCHEMAS AND DATA TYPES
+-------------------------
+1. How do you define an explicit schema?
+   Build StructType containing StructField values, or use a DDL schema string.
+
+2. What is the benefit of an explicit schema?
+   It improves reliability, avoids inference cost, and documents expected types and nullability.
+
+3. What is nullable in StructField?
+   It indicates whether the field may contain null; enforcement depends on how data enters Spark.
+
+4. How do you cast a column?
+   Use col("amount").cast("decimal(18,2)").
+
+5. Why use DecimalType for financial values?
+   Decimal provides controlled precision, unlike binary floating-point types.
+
+6. How do you inspect a DataFrame schema?
+   Use printSchema(), schema, or dtypes.
+
+7. What are StructType, ArrayType, and MapType?
+   They represent nested records, arrays, and key-value maps.
+
+8. How do you handle schema evolution?
+   Define compatibility rules and use format-specific evolution options carefully; do not accept unexpected
+   changes blindly.
+
+
+6. TRANSFORMATIONS AND ACTIONS
+------------------------------
+1. What is a transformation?
+   A transformation creates a new DataFrame or RDD and is evaluated lazily.
+
+2. What is an action?
+   An action triggers execution and returns a result or writes output.
+
+3. Give examples of transformations.
+   select, filter, withColumn, join, groupBy, distinct, and orderBy.
+
+4. Give examples of actions.
+   count, collect, first, take, show, foreach, and write operations.
+
+5. What is the difference between select() and withColumn()?
+   select chooses or computes a set of columns. withColumn adds or replaces one named column.
+
+6. How do you rename a column?
+   Use withColumnRenamed(), alias() inside select, or toDF() for all names.
+
+7. How do you remove columns?
+   Use drop().
+
+8. How do you remove duplicate rows?
+   Use distinct() for complete rows or dropDuplicates(subset) for selected keys.
+
+9. Why can repeated withColumn calls be undesirable?
+   Very long chains can create large logical plans. A single select can express many independent columns clearly.
+
+
+7. NARROW AND WIDE TRANSFORMATIONS
+----------------------------------
+1. What is a narrow transformation?
+   Each output partition depends on a small number of input partitions and normally avoids a shuffle.
+
+2. Give examples of narrow transformations.
+   map, filter, select, and many withColumn operations.
+
+3. What is a wide transformation?
+   Output partitions depend on data from many input partitions and usually require a shuffle.
+
+4. Give examples of wide transformations.
+   groupBy, distinct, orderBy, repartition, and most non-broadcast joins.
+
+5. Why does this distinction matter?
+   Wide transformations are more expensive and create stage boundaries.
+
+
+8. NULLS, DATES, AND STRINGS
+----------------------------
+1. How do you check for null?
+   Use col("x").isNull() or isNotNull(), not Python's == None inside a Spark expression.
+
+2. How do you replace null values?
+   Use fillna()/na.fill(), coalesce(), or conditional expressions.
+
+3. What is Spark SQL's null-safe equality operator?
+   <=> in SQL or eqNullSafe() in the DataFrame API treats two nulls as equal.
+
+4. How do you parse a date?
+   Use to_date(column, format).
+
+5. How do you parse a timestamp?
+   Use to_timestamp(column, format).
+
+6. Why is timezone handling important?
+   Parsing and display can depend on the Spark session timezone. Store a defined standard such as UTC.
+
+7. How do you split and extract strings?
+   Use split(), substring(), regexp_extract(), and regexp_replace().
+
+8. How do you build conditional logic?
+   Use when(condition, value).otherwise(value).
+
+
+9. AGGREGATIONS
+---------------
+1. How do you aggregate data?
+   Use groupBy().agg() with functions such as sum, count, min, max, and avg.
+
+2. What is the difference between count("*") and count("column")?
+   count("*") counts rows. count("column") ignores null values in that column.
+
+3. How do you count distinct values?
+   Use countDistinct(). approx_count_distinct() is useful when an estimate is acceptable.
+
+4. What is pivot?
+   Pivot turns distinct values from one column into output columns and aggregates their values.
+
+5. Why can pivot be expensive?
+   It causes a shuffle and may produce many columns. Provide known pivot values when possible.
+
+6. What is rollup?
+   rollup calculates hierarchical subtotal combinations.
+
+7. What is cube?
+   cube calculates subtotal combinations across all specified grouping dimensions.
+
+
+10. JOINS
+---------
+1. Which joins does PySpark support?
+   Inner, left, right, full outer, cross, left semi, and left anti joins.
+
+2. What does a left semi join return?
+   Left-side rows that have a match, containing only left-side columns.
+
+3. What does a left anti join return?
+   Left-side rows that do not have a match.
+
+4. What is a broadcast join?
+   Spark copies a small relation to executors so the large relation can join without a full shuffle.
+
+5. How do you request a broadcast join?
+   Use broadcast(small_df), a SQL hint, or rely on automatic broadcast thresholds.
+
+6. What is a sort-merge join?
+   Both sides are shuffled by key and sorted before matching. It is common for large equi-joins.
+
+7. How do duplicate keys affect a join?
+   Many-to-many matches multiply rows. Validate key uniqueness and expected output grain.
+
+8. How do you avoid duplicate join-key columns?
+   Join using a shared key name, such as left.join(right, "id"), or explicitly select/alias columns.
+
+9. What is a cross join?
+   It returns every left-right row combination and can produce extremely large output.
+
+10. How are null join keys handled?
+    Normal equality does not match null to null. Use null-safe equality only when that matches business rules.
+
+
+11. WINDOW FUNCTIONS
+--------------------
+1. What is a window function?
+   It computes a value across related rows without reducing them to one row per group.
+
+2. How do you define a window?
+   Use Window.partitionBy(...).orderBy(...), optionally with a row or range frame.
+
+3. What is the difference between row_number, rank, and dense_rank?
+   row_number is unique; rank leaves gaps after ties; dense_rank does not leave gaps.
+
+4. How do you select the latest record per key?
+   Apply row_number over a key partition ordered by timestamp descending, then filter row number 1.
+
+5. What do lag and lead do?
+   They access values from previous or following rows in a window order.
+
+6. What is the difference between rowsBetween and rangeBetween?
+   rowsBetween uses physical row positions. rangeBetween uses values relative to the ordering expression.
+
+7. Why can window functions be expensive?
+   They often require repartitioning by keys and sorting within partitions.
+
+
+12. PARTITIONING AND SHUFFLES
+-----------------------------
+1. What determines the number of input partitions?
+   File sizes, source splits, format, and Spark source configurations.
+
+2. What does repartition() do?
+   It shuffles data to produce a requested number of partitions, optionally by columns.
+
+3. What does coalesce() do?
+   It normally reduces partitions with less data movement than repartition.
+
+4. When should you repartition by a column?
+   Before repeated operations that benefit from the same distribution, when the shuffle cost is justified.
+
+5. What is spark.sql.shuffle.partitions?
+   It is the default partition count for many DataFrame shuffle operations.
+
+6. What is data skew?
+   Skew occurs when some partition keys contain much more data than others.
+
+7. How do you detect skew?
+   Inspect key-frequency distributions and Spark UI task durations, input sizes, and shuffle metrics.
+
+8. How can skew be handled?
+   Filter early, broadcast a small side, enable AQE skew handling, split hot keys, or carefully salt keys.
+
+9. What is key salting?
+   It adds a controlled secondary value to spread a hot key, followed by logic to restore correct results.
+
+10. Why are too many small partitions harmful?
+    They increase scheduling, metadata, and file-management overhead.
+
+
+13. CACHE, PERSIST, AND CHECKPOINT
+----------------------------------
+1. What does cache() do?
+   It marks a DataFrame for reuse with the default storage level; materialization occurs on an action.
+
+2. What does persist() do?
+   It is like cache but allows an explicit storage level.
+
+3. When should data be cached?
+   Cache expensive intermediate data that is reused enough to justify memory and materialization cost.
+
+4. How do you remove cached data?
+   Use unpersist().
+
+5. Why can caching make performance worse?
+   It can consume executor memory, trigger eviction/spilling, and add work for data used only once.
+
+6. What is checkpointing?
+   Checkpointing writes data to reliable storage and truncates its lineage.
+
+7. What is the difference between cache and checkpoint?
+   Cache is primarily for reuse and retains lineage. Checkpoint creates a durable lineage break.
+
+
+14. CATALYST, TUNGSTEN, AND AQE
+-------------------------------
+1. What is Catalyst?
+   Catalyst is Spark SQL's query optimizer for analyzing and optimizing logical and physical plans.
+
+2. What is predicate pushdown?
+   Spark asks a compatible data source to read only rows matching filters.
+
+3. What is column pruning?
+   Spark reads and processes only required columns when supported.
+
+4. What is Tungsten?
+   Tungsten refers to Spark execution improvements involving memory management and generated code.
+
+5. What is whole-stage code generation?
+   Spark combines compatible operators into generated JVM code to reduce interpretation and virtual calls.
+
+6. What is Adaptive Query Execution?
+   AQE re-optimizes parts of a query at runtime using observed statistics.
+
+7. What can AQE improve?
+   It can coalesce shuffle partitions, handle some skewed joins, and change join strategies.
+
+8. How do you inspect an execution plan?
+   Use df.explain(), df.explain("formatted"), SQL EXPLAIN, and the Spark UI.
+
+
+15. UDFS AND PYTHON PERFORMANCE
+-------------------------------
+1. Why should built-in Spark functions be preferred?
+   Catalyst understands and optimizes them, and they avoid unnecessary Python-JVM data transfer.
+
+2. What is a Python UDF?
+   It runs custom Python logic for column values but often adds serialization and optimization overhead.
+
+3. What is a Pandas UDF?
+   It uses Arrow to process batches as pandas objects, often faster than a scalar Python UDF.
+
+4. When should a UDF be used?
+   Only when required logic cannot be expressed clearly with built-in SQL/DataFrame functions.
+
+5. What is Apache Arrow in PySpark?
+   Arrow is a columnar in-memory format that speeds certain Python-pandas and JVM data transfers.
+
+6. Why is collect() dangerous?
+   It transfers all records to the driver and can cause driver out-of-memory failures.
+
+7. What are safer alternatives to collect()?
+   Use limit, take, aggregations, distributed writes, or toLocalIterator when sequential driver processing is safe.
+
+8. Why can normal Python loops be slow for DataFrame logic?
+   They execute on the driver instead of expressing distributed operations to Spark.
+
+
+16. FILE FORMATS AND DATA LAYOUT
+--------------------------------
+1. Why is Parquet preferred for analytics?
+   It is columnar, compressed, splittable, and supports column pruning and predicate pushdown.
+
+2. What is the difference between row and columnar formats?
+   Row formats store complete records together. Columnar formats store values by column for efficient analytics.
+
+3. What are common Spark file formats?
+   Parquet, ORC, Avro, JSON, CSV, text, and Delta when its connector is available.
+
+4. Why is CSV usually poor for large analytical storage?
+   It lacks reliable types, efficient column pruning, and strong compression compared with columnar formats.
+
+5. What is partition pruning?
+   Spark skips partition directories that cannot match partition-column filters.
+
+6. How should partition columns be selected?
+   Choose frequently filtered, reasonably distributed, low-to-moderate cardinality columns.
+
+7. What is the small-files problem?
+   Many tiny files increase listing, scheduling, metadata, and open/close overhead.
+
+8. How can small files be reduced?
+   Control output partitions, compact files, and use table-format optimization features.
+
+9. What is write mode append?
+   It adds output without replacing existing data.
+
+10. What is write mode overwrite?
+    It replaces matching data according to the data source and overwrite configuration; use carefully.
+
+
+17. DELTA LAKE
+--------------
+1. What is Delta Lake?
+   Delta Lake is a table format that adds a transaction log, ACID transactions, schema controls, and table history
+   to object storage.
+
+2. What is the Delta transaction log?
+   It records table versions, active files, metadata, and operations.
+
+3. What is time travel?
+   It queries an earlier table version or timestamp while the required history and files remain available.
+
+4. What is MERGE?
+   MERGE conditionally updates, inserts, or deletes target rows based on source matches.
+
+5. How is schema enforcement different from schema evolution?
+   Enforcement rejects incompatible writes. Evolution intentionally permits supported schema changes.
+
+6. What does OPTIMIZE do in Databricks?
+   It compacts files and can improve data layout using supported clustering options.
+
+7. What does VACUUM do?
+   It removes old unreferenced files beyond retention rules, limiting access to older versions.
+
+8. Why must VACUUM retention be handled carefully?
+   Aggressive cleanup can break time travel or readers still referencing old files.
+
+9. What is the medallion architecture?
+   Bronze keeps source-like data, silver holds cleaned reusable data, and gold serves business-ready results.
+
+10. How do you build an idempotent Delta load?
+    Use stable business keys, deterministic transformations, MERGE/replace semantics, and tracked input state.
+
+
+18. STRUCTURED STREAMING
+------------------------
+1. What is Structured Streaming?
+   It is Spark's streaming engine that expresses incremental processing with DataFrame and SQL APIs.
+
+2. What is micro-batch processing?
+   Spark processes newly available data in a sequence of small batches.
+
+3. What is a streaming checkpoint?
+   It stores progress and state metadata needed for recovery.
+
+4. Why must each streaming query have a stable checkpoint location?
+   Reusing, deleting, or changing it incorrectly can cause duplicate processing or incompatible recovery.
+
+5. What output modes are available?
+   Append, update, and complete, depending on the query and sink.
+
+6. What is a watermark?
+   A watermark defines how late event-time data may arrive and helps bound state for supported operations.
+
+7. Does a watermark guarantee that no late data is dropped?
+   No. Data later than the watermark policy may be dropped for stateful operations.
+
+8. What is event time versus processing time?
+   Event time is when the source event occurred. Processing time is when Spark processed it.
+
+9. What is foreachBatch?
+   It runs custom batch logic for each micro-batch and provides a batch ID.
+
+10. How can streaming writes be made idempotent?
+    Use transactional sinks, checkpoints, stable keys, batch IDs, and deduplication or MERGE logic.
+
+11. What is stream-static join?
+    It joins each streaming batch with a static DataFrame.
+
+12. What makes a stateful streaming query expensive?
+    Large key cardinality, long watermark horizons, skew, and unbounded state growth.
+
+
+19. DATA QUALITY AND INCREMENTAL PROCESSING
+-------------------------------------------
+1. What is idempotency?
+   Processing the same input again produces the same final state without unintended duplicates.
+
+2. What is a watermark in batch ingestion?
+   It is a stored high value, such as timestamp or ID, used to extract only newer source records.
+
+3. How do you handle late-arriving records?
+   Use an overlap window, CDC, event-time policy, or periodic reconciliation and deduplication.
+
+4. How do you deduplicate records?
+   Define the business key and ordering rule, then use dropDuplicates or row_number to keep the correct record.
+
+5. What quality checks are common?
+   Completeness, uniqueness, validity, consistency, freshness, and referential integrity.
+
+6. How should bad records be handled?
+   Fail critical contracts or quarantine records with reason, source, and run metadata for investigation.
+
+7. What metadata should a pipeline record?
+   Run ID, source, input/output counts, invalid counts, timestamps, watermark, status, and error details.
+
+8. How do you process source deletes?
+   Use CDC/tombstones when available or compare snapshots, then apply an explicit hard- or soft-delete policy.
+
+
+20. SPARK CONFIGURATION AND CLUSTER RESOURCES
+---------------------------------------------
+1. What are executor cores and executor memory?
+   They control task concurrency and memory available inside each executor process.
+
+2. What is driver memory used for?
+   Plans, task scheduling, metadata, collected results, and driver-side application logic.
+
+3. What happens when executor memory is insufficient?
+   Spark may spill to disk, spend time in garbage collection, or fail with out-of-memory errors.
+
+4. What is dynamic allocation?
+   It adjusts executor count based on workload demand when supported and configured.
+
+5. Why are very large executors sometimes harmful?
+   They can cause long garbage-collection pauses, poor parallelism, and greater impact from executor loss.
+
+6. What is speculative execution?
+   Spark may run duplicate copies of unusually slow tasks and keep the first successful result.
+
+7. What is serialization?
+   It converts objects into a transferable or storable representation.
+
+8. What should determine cluster sizing?
+   Measured data volume, shuffle size, memory pressure, task concurrency, runtime targets, and cost.
+
+
+21. MONITORING AND TROUBLESHOOTING
+----------------------------------
+1. What can you inspect in the Spark UI?
+   Jobs, stages, tasks, SQL plans, executors, storage, input/output, shuffle, spills, and task timing.
+
+2. How do you recognize a skewed stage?
+   A few tasks run much longer or process much more data than the others.
+
+3. What does spill indicate?
+   Execution data exceeded available memory and was written to disk.
+
+4. What can cause executor loss?
+   Out-of-memory errors, container limits, node failure, network problems, or cluster preemption.
+
+5. Why might a Spark job appear stuck?
+   Skew, slow I/O, unavailable executors, huge shuffles, external calls, or excessive garbage collection.
+
+6. How should performance tuning begin?
+   Measure the slow stage and inspect its plan and metrics before changing configuration.
+
+7. What are signs of too many small files?
+   Long file listing, many tiny tasks, high scheduling overhead, and slow table reads.
+
+8. What should be logged for production jobs?
+   Run identifiers, input/output locations, counts, durations, checkpoints/watermarks, and actionable errors.
+
+
+22. TESTING AND PRODUCTION PRACTICES
+------------------------------------
+1. How do you unit-test PySpark transformations?
+   Create a local Spark session, use small deterministic DataFrames, call pure transformations, and compare schema
+   and rows.
+
+2. Why should transformation logic be separated from I/O?
+   Pure DataFrame-in/DataFrame-out functions are easier to test and reuse.
+
+3. How do you compare DataFrame results?
+   Compare schemas and rows with order handled explicitly, or use an appropriate DataFrame assertion utility.
+
+4. Why should output order not be assumed?
+   Distributed DataFrames are unordered unless an explicit orderBy is applied.
+
+5. How should secrets be handled?
+   Use a managed secret store, workload identity, or platform secret scope; never hard-code them.
+
+6. How should environment-specific values be handled?
+   Pass parameters or configuration rather than hard-coding paths and catalog names.
+
+7. What makes a pipeline restartable?
+   Durable state, atomic writes, idempotent transformations, clear run boundaries, and controlled retries.
+
+8. Why should Python dependencies be pinned?
+   Reproducible versions reduce deployment and runtime differences.
+
+
+23. COMMON CODING QUESTIONS
+---------------------------
+1. How do you filter rows?
+   result = df.filter(F.col("amount") > 0)
+
+2. How do you create a derived column?
+   result = df.withColumn("total", F.col("price") * F.col("quantity"))
+
+3. How do you replace null amounts with zero?
+   result = df.fillna({"amount": 0})
+
+4. How do you aggregate revenue by date?
+   result = df.groupBy("order_date").agg(F.sum("amount").alias("revenue"))
+
+5. How do you find duplicate business keys?
+   df.groupBy("id").count().filter(F.col("count") > 1)
+
+6. How do you keep the latest row per ID?
+   Use row_number over Window.partitionBy("id").orderBy(F.col("updated_at").desc()), then keep row number 1.
+
+7. How do you perform a left anti join?
+   missing = left.join(right, on="id", how="left_anti")
+
+8. How do you broadcast a small DataFrame?
+   result = large.join(F.broadcast(small), "id")
+
+9. How do you write a partitioned Parquet dataset?
+   df.write.mode("append").partitionBy("event_date").parquet(path)
+
+10. How do you write a managed Delta table?
+    df.write.format("delta").mode("append").saveAsTable("catalog.schema.table")
+
+11. How do you inspect the physical plan?
+    df.explain("formatted")
+
+12. How do you reduce output to ten partitions?
+    df.coalesce(10), when reducing without balanced redistribution; otherwise use repartition(10).
+
+
+24. SCENARIO-BASED INTERVIEW QUESTIONS
+--------------------------------------
+1. A job processing the same data is suddenly slower. What do you check?
+   Compare input size and schema, execution plans, cluster resources, file counts, join strategy, skew, spills,
+   shuffle metrics, and external-source performance.
+
+2. One task runs for 30 minutes while others finish in one minute. What is likely wrong?
+   Data skew, a very large input file, slow external work, or resource issues. Confirm with task-level metrics.
+
+3. A join unexpectedly multiplies the row count. What do you do?
+   Check key uniqueness and null behavior on both sides, confirm intended grain, and deduplicate only according to
+   a valid business rule.
+
+4. A pipeline creates thousands of tiny files each day. How do you fix it?
+   Reduce write partitions based on target file size, compact existing files, and avoid high-cardinality partition
+   columns.
+
+5. A collect() call crashes the driver. What is the solution?
+   Keep processing distributed, aggregate or limit results, and write output instead of collecting all rows.
+
+6. A Python UDF is the slowest operator. What do you do?
+   Replace it with built-in expressions if possible, otherwise test a vectorized Pandas UDF and measure.
+
+7. How do you safely rerun yesterday's failed load?
+   Reprocess a defined input window into an idempotent target using stable keys and transactional writes.
+
+8. How do you design a daily incremental customer load?
+   Extract changes using CDC or a watermark, land immutable raw data, validate and deduplicate, then MERGE by
+   customer key and track the successful source position.
+
+9. How do you handle a new source column?
+   Decide whether it is compatible, update the contract and transformations, test downstream impact, and enable
+   controlled schema evolution only when appropriate.
+
+10. How do you optimize a large fact-to-small-dimension join?
+    Filter and select columns early, verify dimension size and uniqueness, then consider a broadcast join.
+
+11. How do you handle a large fact-to-large-fact join?
+    Reduce both sides first, align keys and types, inspect distribution/skew, allow an appropriate distributed join,
+    and tune shuffle partitions based on metrics.
+
+12. How do you perform a historical backfill without disrupting daily loads?
+    Use separate parameters, compute, and output boundaries; process bounded periods; preserve idempotency; and
+    reconcile results before promotion.
+
+13. How do you troubleshoot executor out-of-memory errors?
+    Identify the failing operator, skew, partition sizes, cache usage, joins, and Python memory before changing
+    executor sizing.
+
+14. How do you ensure source and target reconciliation?
+    Record counts and business totals by extraction window, compare rejected records, and alert on unexplained
+    differences.
+
+15. How do you protect sensitive columns?
+    Apply least-privilege access, encryption, masking or row/column controls, audit logging, and avoid exposing raw
+    sensitive data unnecessarily.
+
+
+25. RAPID REVISION QUESTIONS
+----------------------------
+1. Transformation versus action?
+   A transformation builds a lazy plan; an action executes it.
+
+2. Driver versus executor?
+   The driver plans and schedules; executors run tasks and store distributed data.
+
+3. repartition versus coalesce?
+   repartition shuffles for balanced redistribution; coalesce usually reduces partitions with less movement.
+
+4. cache versus checkpoint?
+   Cache supports reuse and keeps lineage; checkpoint persists data and truncates lineage.
+
+5. DataFrame versus RDD?
+   DataFrames have schemas and optimizer support; RDDs provide lower-level object processing.
+
+6. groupBy versus window?
+   groupBy reduces rows per group; a window retains row-level output.
+
+7. distinct versus dropDuplicates?
+   distinct compares all columns; dropDuplicates can use a subset.
+
+8. left semi versus inner join?
+   Left semi returns only matching left rows and left columns; inner returns combined matching rows.
+
+9. left anti versus left join?
+   Left anti returns unmatched left rows; left join returns every left row with optional right values.
+
+10. broadcast join versus sort-merge join?
+    Broadcast copies a small side to executors; sort-merge shuffles and sorts both sides.
+
+11. Parquet versus CSV?
+    Parquet is typed and columnar; CSV is text-based and lacks reliable schema metadata.
+
+12. batch watermark versus streaming watermark?
+    A batch watermark tracks extracted source progress. A streaming watermark bounds late-data state by event time.
+
+13. append versus overwrite?
+    Append adds data; overwrite replaces data according to the target and overwrite configuration.
+
+14. built-in function versus Python UDF?
+    Built-ins are optimizer-visible and generally faster; Python UDFs add a Python execution boundary.
+
+15. Why is idempotency important?
+    It makes retries and recovery safe without corrupting or duplicating final data.

@@ -1,0 +1,491 @@
+DATABRICKS INTERVIEW QUESTIONS FOR DATA ENGINEERS - TOPIC WISE
+==============================================================
+
+1. DATABRICKS FUNDAMENTALS
+--------------------------
+1. What is Databricks?
+   Databricks is a managed data and AI platform built around Apache Spark and the lakehouse architecture.
+
+2. What is a lakehouse?
+   A lakehouse combines data-lake storage flexibility with warehouse-style reliability, governance, and SQL.
+
+3. What workloads does Databricks support?
+   Batch processing, streaming, SQL analytics, machine learning, orchestration, and data governance.
+
+4. What is a Databricks workspace?
+   It is a collaborative environment containing notebooks, files, jobs, queries, dashboards, and compute access.
+
+5. How is Databricks related to Apache Spark?
+   Databricks provides a managed platform and optimized runtimes around Spark plus additional governance,
+   orchestration, SQL, storage, and operational features.
+
+6. When is Databricks a good choice?
+   For scalable transformations, lakehouse tables, streaming, collaborative analytics, and governed data products.
+
+
+2. PLATFORM ARCHITECTURE
+------------------------
+1. What are the control plane and compute plane?
+   The control plane hosts managed platform services. The compute plane processes customer workloads and data.
+
+2. What is serverless compute?
+   Databricks-managed compute that reduces infrastructure management and starts/scales according to service support.
+
+3. What is classic compute?
+   Compute provisioned in the customer's cloud environment under workspace configuration.
+
+4. What is the Databricks Runtime?
+   A tested distribution containing Spark and compatible libraries plus Databricks optimizations.
+
+5. What is Photon?
+   Photon is Databricks' vectorized query engine for supported SQL and DataFrame workloads.
+
+6. What should determine region selection?
+   Data residency, service availability, latency, networking, disaster recovery, and cost requirements.
+
+
+3. COMPUTE
+----------
+1. What types of compute are commonly used?
+   Interactive/all-purpose compute, jobs compute, SQL warehouses, and serverless options where available.
+
+2. Why prefer jobs compute for production jobs?
+   It provides workload isolation and can terminate after the run, improving reproducibility and cost control.
+
+3. What is autoscaling?
+   It adjusts worker count between configured limits based on workload demand.
+
+4. What is auto-termination?
+   It stops idle interactive compute after a configured period.
+
+5. What are access modes?
+   They control workload isolation and user/data access behavior. Supported modes depend on platform configuration.
+
+6. Why use compute policies?
+   Policies constrain configurations, enforce standards, and control cost.
+
+7. What is an instance pool?
+   A pool keeps ready cloud instances to reduce startup time for supported classic compute.
+
+8. How do you choose node types?
+   Use measured CPU, memory, I/O, shuffle, runtime, and cost requirements.
+
+9. What is spot/preemptible capacity?
+   Discounted capacity that the cloud provider can reclaim; use it only with suitable fallback and fault tolerance.
+
+
+4. NOTEBOOKS AND DEVELOPMENT
+----------------------------
+1. Which languages can notebooks use?
+   Commonly Python, SQL, Scala, and R, subject to runtime and workspace support.
+
+2. What are magic commands?
+   Commands such as %python, %sql, %scala, %r, %sh, and %md that select notebook behavior.
+
+3. What are widgets?
+   Widgets accept notebook parameters such as dates, paths, and environment names.
+
+4. How do you pass parameters to a job notebook?
+   Configure task parameters and read them through supported widget or task-value APIs.
+
+5. Why should production logic not remain only in notebooks?
+   Reusable modules are easier to test, review, package, and deploy.
+
+6. How should dependencies be managed?
+   Pin versions, use supported library installation methods, and test them with the selected runtime.
+
+7. What are Git folders/Repos used for?
+   They connect workspace development with a Git-based source-control workflow.
+
+
+5. WORKFLOWS AND JOBS
+---------------------
+1. What is a Databricks job?
+   A job is a production workflow containing one or more scheduled or triggered tasks.
+
+2. Which task types can a job contain?
+   Notebook, Python, SQL, JAR, pipeline, dbt, and other supported task types.
+
+3. What is a multi-task job?
+   A workflow whose tasks have dependencies and can run sequentially or in parallel.
+
+4. What is a job cluster?
+   Ephemeral compute created for a job or task and terminated afterward.
+
+5. What are retries used for?
+   They recover from transient failures; tasks must be idempotent to make retries safe.
+
+6. What is a repair run?
+   It reruns failed or skipped portions of an existing multi-task job.
+
+7. How can values be shared between tasks?
+   Use task values or durable storage, depending on size and lifecycle requirements.
+
+8. How should job failures be monitored?
+   Configure notifications, system tables/log delivery where applicable, and external operational alerts.
+
+
+6. STORAGE, VOLUMES, AND TABLES
+-------------------------------
+1. What is DBFS?
+   DBFS is a Databricks filesystem abstraction. Legacy root/mount patterns are not recommended for new governed
+   designs.
+
+2. What are Unity Catalog volumes?
+   Governed storage objects for non-tabular files.
+
+3. What is the difference between managed and external tables?
+   Databricks manages data lifecycle for managed tables. External tables reference data whose lifecycle remains
+   outside table deletion.
+
+4. What is an external location?
+   A governed Unity Catalog object that associates a cloud storage path with a storage credential.
+
+5. Why should direct cloud paths be controlled?
+   Unmanaged path access can bypass catalog permissions, lineage, and consistent governance.
+
+6. What is a temporary view?
+   A session-scoped named query result that does not persist as a table.
+
+7. What is a global temporary view?
+   A view available across sessions in the application through a special temporary database.
+
+
+7. UNITY CATALOG
+----------------
+1. What is Unity Catalog?
+   Unity Catalog is Databricks' centralized governance layer for data and other securable objects.
+
+2. What is the three-level namespace?
+   catalog.schema.object, for example production.sales.orders.
+
+3. What is a metastore?
+   It is the top-level Unity Catalog metadata and governance boundary assigned to workspaces.
+
+4. What is a storage credential?
+   A governed cloud identity used to access cloud storage.
+
+5. How are privileges granted?
+   Use GRANT on securable objects, preferably assigning permissions to groups.
+
+6. Why are USE CATALOG and USE SCHEMA needed?
+   They allow principals to traverse containers before accessing contained objects.
+
+7. What are lineage and audit capabilities?
+   They help trace data dependencies and record platform access and actions.
+
+8. What are row filters and column masks?
+   Governance controls that restrict rows or transform sensitive column values for selected users.
+
+9. What is least privilege?
+   Grant only the minimum access needed for a role to perform its work.
+
+
+8. DELTA LAKE
+-------------
+1. What is Delta Lake?
+   Delta Lake is a table format providing a transaction log, ACID operations, schema controls, and history.
+
+2. What is stored in _delta_log?
+   Transaction actions and checkpoints describing table versions, files, metadata, and operations.
+
+3. What is time travel?
+   Reading an earlier table version or timestamp while its required history and files remain available.
+
+4. What does MERGE do?
+   It conditionally updates, inserts, and deletes target records based on source matches.
+
+5. What is schema enforcement?
+   It rejects writes that do not satisfy the table schema and compatibility rules.
+
+6. What is schema evolution?
+   It intentionally permits supported schema changes during table operations.
+
+7. What does OPTIMIZE do?
+   It compacts files and can improve data layout.
+
+8. What does VACUUM do?
+   It removes old unreferenced files outside retention, reducing storage but limiting old-version recovery.
+
+9. What is deletion-vector support?
+   It can record row-level changes without immediately rewriting every affected data file.
+
+10. How do you make a Delta load idempotent?
+    Use stable keys, deterministic logic, transactional operations, and tracked source progress.
+
+
+9. MEDALLION ARCHITECTURE
+-------------------------
+1. What is the bronze layer?
+   Source-like data with ingestion metadata and minimal transformation.
+
+2. What is the silver layer?
+   Cleaned, typed, deduplicated, validated, reusable data.
+
+3. What is the gold layer?
+   Business-ready facts, dimensions, aggregates, and data products.
+
+4. Must every pipeline have exactly three layers?
+   No. Medallion is a design pattern; layers should reflect actual quality and consumption boundaries.
+
+5. Where should invalid records go?
+   Into a governed quarantine area with error reason, source, and run metadata.
+
+6. Why retain bronze data?
+   It supports replay, audit, debugging, and rebuilding downstream tables.
+
+
+10. AUTO LOADER AND INGESTION
+-----------------------------
+1. What is Auto Loader?
+   Auto Loader incrementally discovers and ingests new cloud files through the cloudFiles source.
+
+2. How can Auto Loader discover files?
+   Through directory listing or supported file-notification mechanisms.
+
+3. What is schemaLocation?
+   A durable path where Auto Loader stores inferred schema and schema-change metadata.
+
+4. Why is checkpointLocation required?
+   It records streaming progress and state needed for recovery and exactly-once sink coordination.
+
+5. What are rescued data columns?
+   They preserve unexpected or mismatched input fields for later investigation.
+
+6. How do you control schema evolution?
+   Select an evolution mode and explicitly manage expected changes and downstream compatibility.
+
+7. What is availableNow?
+   A trigger that processes currently available input incrementally and then stops.
+
+
+11. DECLARATIVE PIPELINES
+-------------------------
+1. What are Lakeflow Declarative Pipelines?
+   A Databricks framework for defining reliable batch and streaming data pipelines declaratively; older material
+   may refer to Delta Live Tables.
+
+2. What is a streaming table?
+   A table incrementally populated from a streaming source.
+
+3. What is a materialized view?
+   A stored query result refreshed by the pipeline according to supported semantics.
+
+4. What are expectations?
+   Data-quality rules that can record, drop, or fail invalid records according to configuration.
+
+5. What is the benefit of declarative pipelines?
+   They manage dependencies, incremental execution, quality reporting, and operational infrastructure.
+
+6. When might standard jobs be preferable?
+   For custom orchestration or processing that does not fit declarative table semantics.
+
+
+12. STRUCTURED STREAMING
+------------------------
+1. What is Structured Streaming?
+   Spark's incremental stream-processing engine using DataFrame and SQL APIs.
+
+2. What is a watermark?
+   An event-time threshold that helps bound state and defines tolerated lateness for supported operations.
+
+3. What is foreachBatch?
+   It executes custom batch logic for each micro-batch.
+
+4. How can a stream perform upserts?
+   Use foreachBatch with an idempotent Delta MERGE or a supported declarative CDC pattern.
+
+5. Why should checkpoint paths not be casually changed?
+   The checkpoint stores query identity, progress, and state required for correct recovery.
+
+6. What causes state growth?
+   High key cardinality, long lateness windows, and stateful operations without effective watermarks.
+
+
+13. DATABRICKS SQL
+------------------
+1. What is a SQL warehouse?
+   Compute optimized for Databricks SQL queries and BI workloads.
+
+2. What is a serverless SQL warehouse?
+   A fully managed SQL compute option with rapid startup and platform-managed infrastructure where available.
+
+3. What is the SQL editor?
+   A workspace interface for creating and running SQL queries.
+
+4. What is query history?
+   Operational information about executed queries, users, duration, status, and profiles.
+
+5. What is a query profile?
+   A visual breakdown of operators, time, rows, I/O, shuffle, and execution bottlenecks.
+
+6. How do BI tools connect?
+   Through supported JDBC/ODBC connectors and partner integrations.
+
+7. How do you control SQL warehouse cost?
+   Use auto-stop, suitable sizing, scaling limits, workload isolation, monitoring, and optimized queries.
+
+
+14. PERFORMANCE OPTIMIZATION
+----------------------------
+1. What is predicate pushdown?
+   Filters are pushed toward the scan so compatible sources read less data.
+
+2. What is column pruning?
+   Only required columns are read and processed.
+
+3. What is data skipping?
+   File statistics help avoid reading files that cannot match a predicate.
+
+4. What is liquid clustering?
+   A Delta data-layout approach that incrementally organizes data around selected clustering keys.
+
+5. What is Z-Ordering?
+   A file-layout optimization that colocates related column values; support and recommendations depend on table
+   features and platform guidance.
+
+6. What is the small-files problem?
+   Too many tiny files increase metadata, listing, scheduling, and read overhead.
+
+7. How do you investigate a slow job?
+   Inspect the Spark UI/query profile, plan, input size, file count, shuffle, spills, skew, and cluster metrics.
+
+8. Why should built-in functions be preferred over Python UDFs?
+   They are optimizer-visible and avoid much of the Python serialization boundary.
+
+9. What is Adaptive Query Execution?
+   Runtime query re-optimization that can coalesce shuffle partitions, handle skew, and change join strategies.
+
+10. When should a table be cached?
+    Only when expensive data is reused enough to justify memory and materialization cost.
+
+
+15. SECURITY AND NETWORKING
+---------------------------
+1. How should secrets be stored?
+   Use a managed secret store, secret scope, or workload identity; never place secrets in notebooks or source code.
+
+2. What is a service principal?
+   A non-human identity used by applications and automation.
+
+3. What is managed identity?
+   A cloud-managed workload identity that avoids manually managed credentials where supported.
+
+4. What are private endpoints?
+   Private network interfaces that keep supported service traffic off public endpoints.
+
+5. How do you protect sensitive data?
+   Combine least privilege, encryption, private connectivity, masks/filters, auditing, and controlled data products.
+
+6. Why separate dev, test, and production?
+   Separation reduces accidental impact and enables controlled promotion and access boundaries.
+
+
+16. CI/CD AND INFRASTRUCTURE AS CODE
+------------------------------------
+1. What should be stored in Git?
+   Source code, tests, job/pipeline definitions, configuration templates, and deployment scripts.
+
+2. What are Databricks Asset Bundles?
+   A source-controlled way to define, validate, deploy, and run Databricks project resources.
+
+3. How should code move between environments?
+   Through automated deployment with environment-specific parameters and approvals.
+
+4. Why avoid hard-coded catalog and storage names?
+   They prevent safe reuse and promotion between environments.
+
+5. How can Databricks infrastructure be managed?
+   Use supported infrastructure-as-code tools such as Terraform and platform deployment tooling.
+
+6. What should CI run?
+   Formatting, static checks, unit tests, package builds, configuration validation, and safe integration tests.
+
+
+17. MONITORING AND COST
+-----------------------
+1. What should a production pipeline record?
+   Run ID, status, duration, source position, row counts, invalid counts, and actionable error details.
+
+2. What are system tables?
+   Account-level operational datasets for supported areas such as billing, audit, lineage, jobs, and compute.
+
+3. How do you monitor failed jobs?
+   Use job notifications, event logs/system tables, platform monitoring, and external alerting.
+
+4. What commonly increases Databricks cost?
+   Idle compute, oversized resources, inefficient queries, repeated scans, excessive shuffle, and poor scheduling.
+
+5. How do tags help?
+   Tags support ownership, cost allocation, automation, and governance.
+
+6. What is a cost-control checklist?
+   Auto-stop/termination, jobs compute, policies, budgets, efficient data layout, workload monitoring, and right-sizing.
+
+
+18. SCENARIO-BASED QUESTIONS
+----------------------------
+1. A MERGE becomes slow as the table grows. What do you inspect?
+   Match predicates, files scanned, clustering/partition layout, source deduplication, target pruning, and query profile.
+
+2. A job creates thousands of tiny files. How do you fix it?
+   Adjust write parallelism, enable supported optimized writes/compaction, and improve table layout.
+
+3. A job succeeds but produces duplicate records. What do you check?
+   Business keys, source duplicates, join cardinality, retry behavior, checkpoint/source tracking, and MERGE conditions.
+
+4. How do you design an incremental pipeline?
+   Land immutable input, track source progress, validate and deduplicate, apply idempotent target writes, and record
+   reconciliation metrics.
+
+5. How do you backfill one year safely?
+   Use bounded parameters, isolated compute, controlled concurrency, idempotent writes, and validation before promotion.
+
+6. How do you migrate legacy DBFS mounts?
+   Inventory paths and access, configure Unity Catalog credentials/external locations or volumes, update code, test,
+   and remove legacy access gradually.
+
+7. A streaming query's state grows continuously. What do you do?
+   Inspect stateful operations, keys, watermarks, lateness requirements, skew, and checkpoint metrics.
+
+8. Analysts receive permission denied on a table. What do you check?
+   Group membership plus catalog, schema, table, storage/external-location, and workspace access requirements.
+
+9. How do you isolate workloads?
+   Separate jobs/warehouses and identities, use policies and permissions, and select compute based on workload type.
+
+10. A notebook works interactively but fails as a job. Why?
+    Check identity, parameters, working paths, libraries, runtime, permissions, environment state, and hidden variables.
+
+
+19. RAPID REVISION
+------------------
+1. Managed versus external table?
+   Managed tables include platform-managed data lifecycle; external tables reference externally managed data.
+
+2. Job compute versus interactive compute?
+   Job compute is ephemeral production compute; interactive compute supports development and exploration.
+
+3. OPTIMIZE versus VACUUM?
+   OPTIMIZE improves file layout; VACUUM deletes old unreferenced files.
+
+4. Bronze versus silver versus gold?
+   Source-like versus cleaned reusable versus business-ready data.
+
+5. Batch table versus streaming table?
+   Batch is refreshed from bounded input; streaming tables incrementally process arriving input.
+
+6. Volume versus table?
+   A volume governs files; a table provides structured rows and columns.
+
+7. Checkpoint versus schema location?
+   A checkpoint tracks stream progress/state; schema location tracks Auto Loader schema metadata.
+
+8. Notebook versus module?
+   A notebook supports interactive workflow; a module supports reusable, testable code.
+
+9. Cluster versus SQL warehouse?
+   General Spark compute versus SQL-optimized compute.
+
+10. Authentication versus authorization?
+    Authentication proves identity; authorization determines allowed actions.
