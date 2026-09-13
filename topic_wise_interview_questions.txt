@@ -1,57 +1,490 @@
-List
-    1.What is a list in Python? How is it different from tuples?
-        A list is an ordered, mutable collection of elements.
-        A tuple is similar but immutable.
+PYTHON BASIC INTERVIEW QUESTIONS - TOPIC WISE
+================================================
 
-    2. How do you create a list in Python?
-        my_list = [1, 2, 3, 4, 5]
-        empty_list = []
+1. PYTHON FUNDAMENTALS
+----------------------
+1. What is Python?
+   Python is a high-level, interpreted, general-purpose programming language.
 
-    3. How do you access elements in a list?
-        Using indexing: my_list[0]
-    4. How do you add elements to a list?
-        append,insert,extend
-    5. How do you remove elements from a list?
-        remove,pop, del
-    6. How do you find the length of a list?
-        len(my_list)
-    7. What is list comprehension? Provide an example
-        squares = [x**2 for x in range(10)]
-    8. How do you filter a list using list comprehension?
-        evens = [x for x in my_list if x % 2 == 0]
-    9. How do you sort a list?
-        sort,sorted
-    10. How do you reverse a list?
-        reserve and list slicing
-    11. How do you remove duplicates from a list?
-        using set
-    12. How do you flatten a nested list?
-        nested_list = [[1, 2], [3, 4], [5, 6]]
-        flat_list = [item for sublist in nested_list for item in sublist]
-    13. What is the difference between is and == for lists?
-        is checks if two lists reference the same object in memory.
-        checks if two lists have the same content.
-    14. How do you merge two lists?
-        list1 = [1, 2, 3]
-        list2 = [4, 5, 6]
-        merged_list = list1 + list2
+2. What are the main features of Python?
+   Readable syntax, dynamic typing, automatic memory management, a large standard library, and support for
+   procedural, object-oriented, and functional programming.
 
-Tuple
-    1. What is a tuple in Python? How is it different from a list?
-        A tuple is an ordered, immutable collection of elements.
-        A list is mutable (can be modified), whereas a tuple cannot be changed after creation.
-        Tuples are created using parentheses () instead of square brackets []
-    2. How do you create a tuple with a single element?
-        single_element_tuple = (42,)  # Correct
-        not_a_tuple = (42)  # This is just an integer
-    3. How do you concatenate two tuples?
-        tuple1 = (1, 2)
-        tuple2 = (3, 4)
-        new_tuple = tuple1 + tuple2
-    4. Can you modify a tuple after creation?
-        No, tuples are immutable.
-        However, if a tuple contains mutable elements (like a list), the elements inside can be modified
-        my_tuple = (1, [2, 3], 4)
-        my_tuple[1][0] = 99  # Allowed, because the list inside the tuple is mutable
-        print(my_tuple)  # Output: (1, [99, 3], 4)
+3. Is Python compiled or interpreted?
+   Python source is normally compiled into bytecode and then executed by the Python interpreter.
 
+4. What is PEP 8?
+   PEP 8 is Python's official code style guide.
+
+5. Why is indentation important in Python?
+   Indentation defines code blocks such as functions, classes, loops, and conditions.
+
+6. What is a docstring?
+   A docstring documents a module, class, function, or method and is normally written with triple quotes.
+
+
+2. VARIABLES AND DATA TYPES
+---------------------------
+1. What is a variable?
+   A variable is a name that refers to an object in memory.
+
+2. Does Python require variable type declarations?
+   No. Python is dynamically typed, so types are determined at runtime.
+
+3. What are common built-in data types?
+   int, float, complex, bool, str, list, tuple, set, dict, bytes, and NoneType.
+
+4. How do you check the type of a value?
+   Use type(value). Use isinstance(value, Type) when checking whether an object belongs to a type.
+
+5. What is type casting?
+   It is converting a value from one type to another, such as int("10") or str(25).
+
+6. What is None?
+   None is a special value representing the absence of a value.
+
+7. What are mutable and immutable objects?
+   Mutable objects can change after creation; immutable objects cannot. Lists are mutable, while strings and
+   tuples are immutable.
+
+8. What is the difference between == and is?
+   == compares values. is checks whether two references point to the same object.
+
+
+3. OPERATORS
+------------
+1. What are Python's arithmetic operators?
+   +, -, *, /, //, %, and **.
+
+2. What is the difference between / and //?
+   / performs true division. // performs floor division.
+
+3. What does the % operator do?
+   It returns the remainder after division.
+
+4. What does ** do?
+   It performs exponentiation. For example, 2 ** 3 returns 8.
+
+5. What are logical operators?
+   and, or, and not.
+
+6. What are membership operators?
+   in and not in check whether a value exists in a collection.
+
+
+4. STRINGS
+----------
+1. What is a string?
+   A string is an immutable sequence of Unicode characters.
+
+2. How do you access characters in a string?
+   Use zero-based indexing, such as text[0]. Negative indexes count from the end.
+
+3. What is string slicing?
+   Slicing extracts part of a string using text[start:stop:step].
+
+4. Can a string be modified after creation?
+   No. Strings are immutable. String operations create new strings.
+
+5. What is an f-string?
+   It is a readable way to insert expressions into a string, such as f"Hello, {name}".
+
+6. How do you remove surrounding whitespace?
+   Use strip(). lstrip() and rstrip() remove whitespace from one side.
+
+7. How do you split and join strings?
+   split() divides a string. separator.join(iterable) joins multiple strings.
+
+8. How can you reverse a string?
+   Use text[::-1].
+
+
+5. LISTS
+--------
+1. What is a list? How is it different from a tuple?
+   A list is an ordered, mutable collection. A tuple is ordered but immutable.
+
+2. How do you create a list?
+   Examples: numbers = [1, 2, 3] and empty_list = [].
+
+3. How do you access list elements?
+   Use indexing, such as numbers[0], or slicing, such as numbers[1:3].
+
+4. How do you add elements to a list?
+   append() adds one item, insert() adds at a position, and extend() adds items from an iterable.
+
+5. How do you remove elements from a list?
+   remove() deletes by value, pop() deletes and returns by index, and del deletes by index or slice.
+
+6. How do you find the length of a list?
+   Use len(my_list).
+
+7. What is a list comprehension?
+   It is a compact way to create a list. Example: squares = [x ** 2 for x in range(5)].
+
+8. How do you filter using a list comprehension?
+   Example: evens = [x for x in numbers if x % 2 == 0].
+
+9. What is the difference between sort() and sorted()?
+   list.sort() modifies the list and returns None. sorted(iterable) returns a new sorted list.
+
+10. How do you reverse a list?
+    Use list.reverse(), reversed(list), or list[::-1].
+
+11. How do you remove duplicates while preserving order?
+    Use list(dict.fromkeys(items)).
+
+12. How do you flatten a one-level nested list?
+    flat = [item for sublist in nested_list for item in sublist]
+
+13. What is the difference between assigning and copying a list?
+    b = a refers to the same list. b = a.copy() creates a shallow copy.
+
+14. How do you merge two lists?
+    Use list1 + list2, list1.extend(list2), or [*list1, *list2].
+
+
+6. TUPLES
+---------
+1. What is a tuple?
+   A tuple is an ordered, immutable collection.
+
+2. How do you create a tuple with one element?
+   Use a trailing comma: single = (42,).
+
+3. How do you concatenate tuples?
+   Use +, such as new_tuple = tuple1 + tuple2.
+
+4. Can a tuple be modified?
+   The tuple itself cannot be modified. A mutable object stored inside it can still change.
+
+5. What are tuple packing and unpacking?
+   Packing: point = 10, 20. Unpacking: x, y = point.
+
+6. Why might you use a tuple instead of a list?
+   Use a tuple for fixed data and to communicate that the sequence should not change.
+
+
+7. SETS
+-------
+1. What is a set?
+   A set is an unordered collection of unique hashable elements.
+
+2. How do you create an empty set?
+   Use set(). Empty braces {} create a dictionary.
+
+3. How do you add and remove set elements?
+   Use add() to add. Use remove() or discard() to remove; discard() does not fail if the item is absent.
+
+4. How do you perform union and intersection?
+   Use a | b for union and a & b for intersection.
+
+5. What is set difference?
+   a - b returns elements in a that are not in b.
+
+6. What is a frozenset?
+   A frozenset is an immutable set.
+
+
+8. DICTIONARIES
+---------------
+1. What is a dictionary?
+   A dictionary is a mutable mapping of unique hashable keys to values.
+
+2. How do you create a dictionary?
+   Example: employee = {"id": 101, "name": "Asha"}.
+
+3. How do you access a dictionary value?
+   Use data[key] or data.get(key). get() can return a default instead of raising KeyError.
+
+4. How do you add or update an item?
+   Assign it, such as data["city"] = "Pune". update() can modify multiple items.
+
+5. How do you remove an item?
+   Use pop(), popitem(), or del.
+
+6. How do you iterate over keys and values?
+   Use: for key, value in data.items():
+
+7. What is a dictionary comprehension?
+   Example: squares = {x: x ** 2 for x in range(5)}.
+
+8. Can a list be a dictionary key?
+   No. Lists are mutable and unhashable.
+
+
+9. CONDITIONS AND LOOPS
+-----------------------
+1. What do if, elif, and else do?
+   They execute different blocks based on conditions.
+
+2. What values are considered false in Python?
+   False, None, numeric zero, and empty collections such as "", [], (), {}, and set().
+
+3. What is a for loop?
+   It iterates over items from an iterable.
+
+4. What is a while loop?
+   It repeats while its condition remains true.
+
+5. What does break do?
+   It immediately exits the nearest loop.
+
+6. What does continue do?
+   It skips the rest of the current iteration.
+
+7. What does pass do?
+   It is a placeholder statement that performs no action.
+
+8. What is enumerate() used for?
+   It provides both the index and value while iterating.
+
+9. What is zip() used for?
+   It combines iterables and yields tuples of corresponding items.
+
+
+10. FUNCTIONS
+-------------
+1. How do you define a function?
+   Use def, for example: def add(a, b): return a + b.
+
+2. What is the difference between a parameter and an argument?
+   A parameter appears in a function definition. An argument is passed during a call.
+
+3. What does return do?
+   It ends the function and sends a value to the caller. Without return, a function returns None.
+
+4. What are default arguments?
+   They are parameter values used when the caller does not provide an argument.
+
+5. What are keyword arguments?
+   They pass values using parameter names, such as connect(timeout=30).
+
+6. What do *args and **kwargs mean?
+   *args collects extra positional arguments into a tuple. **kwargs collects extra keyword arguments into a
+   dictionary.
+
+7. What is variable scope?
+   Scope determines where a name can be accessed. Common scopes are local, enclosing, global, and built-in.
+
+8. What is a lambda function?
+   A lambda is a small anonymous function containing one expression, such as lambda x: x * 2.
+
+9. Why should mutable values usually not be default arguments?
+   A default object is created once and reused. Use None and create the mutable object inside the function.
+
+10. What are type hints?
+    They document expected types and help development tools, but Python does not enforce them automatically.
+
+
+11. OBJECT-ORIENTED PROGRAMMING
+------------------------------
+1. What is a class?
+   A class is a blueprint that defines data and behavior for its objects.
+
+2. What is an object?
+   An object is an instance of a class.
+
+3. What is __init__?
+   It is an initializer called after a new instance is created.
+
+4. What does self represent?
+   self refers to the current instance inside an instance method.
+
+5. What is inheritance?
+   Inheritance allows a class to reuse and extend another class's behavior.
+
+6. What is encapsulation?
+   Encapsulation groups data and behavior and controls access to internal details.
+
+7. What is polymorphism?
+   Polymorphism allows different object types to support the same interface or operation.
+
+8. What is method overriding?
+   A child class provides its own implementation of an inherited method.
+
+9. What is the difference between instance, class, and static methods?
+   An instance method receives self. A class method receives cls. A static method receives neither automatically.
+
+10. What does super() do?
+    It provides access to methods from the next class in the method resolution order.
+
+
+12. EXCEPTION HANDLING
+----------------------
+1. What is an exception?
+   An exception represents an error or unusual condition during execution.
+
+2. How do you handle an exception?
+   Use try and except.
+
+3. What is the purpose of else in try-except?
+   The else block runs only when the try block finishes without an exception.
+
+4. What is the purpose of finally?
+   The finally block normally runs whether or not an exception occurs and is used for cleanup.
+
+5. How do you raise an exception?
+   Use raise, such as raise ValueError("Age cannot be negative").
+
+6. Why should you avoid a bare except?
+   It catches almost every exception, including errors the program may not safely handle.
+
+7. How do you create a custom exception?
+   Define a class that inherits from Exception or one of its subclasses.
+
+
+13. FILE HANDLING
+-----------------
+1. How do you open a file?
+   Use open(path, mode, encoding=...), preferably in a with statement.
+
+2. What are common file modes?
+   "r" reads, "w" overwrites, "a" appends, "x" creates, and "b" selects binary mode.
+
+3. Why use with when opening files?
+   It closes the file automatically, including when an exception occurs.
+
+4. What is the difference between read(), readline(), and readlines()?
+   read() reads content, readline() reads one line, and readlines() returns all lines as a list.
+
+5. How do you write to a file?
+   Use file.write(text) or file.writelines(lines).
+
+6. What is pathlib?
+   pathlib is a standard-library module for object-oriented, platform-safe filesystem paths.
+
+7. How do you work with JSON files?
+   Use json.load()/json.dump() for files and json.loads()/json.dumps() for strings.
+
+
+14. MODULES AND PACKAGES
+------------------------
+1. What is a module?
+   A module is normally a Python file containing reusable code.
+
+2. What is a package?
+   A package organizes related modules in a directory structure.
+
+3. How do you import a module?
+   Examples: import math, from math import sqrt, or import numpy as np.
+
+4. What does if __name__ == "__main__": mean?
+   The block runs when the file is executed directly, but not when imported.
+
+5. What is pip?
+   pip is Python's package installer.
+
+6. What is a virtual environment?
+   It is an isolated environment for a project's Python packages.
+
+
+15. ITERATORS AND GENERATORS
+----------------------------
+1. What is an iterable?
+   An iterable is an object that can return an iterator, such as a list, tuple, or string.
+
+2. What is an iterator?
+   An iterator returns one item at a time and raises StopIteration when finished.
+
+3. What do iter() and next() do?
+   iter() obtains an iterator. next() requests its next item.
+
+4. What is a generator?
+   A generator is a lazy iterator commonly created by a function containing yield.
+
+5. What is the difference between return and yield?
+   return ends a function. yield produces a value and pauses the generator so it can continue later.
+
+6. Why are generators memory efficient?
+   They produce values as needed instead of storing the complete result in memory.
+
+
+16. COMPREHENSIONS, MAP, AND FILTER
+----------------------------------
+1. What comprehensions does Python support?
+   List, set, and dictionary comprehensions. Parentheses create a generator expression.
+
+2. What does map() do?
+   It lazily applies a function to every item of one or more iterables.
+
+3. What does filter() do?
+   It lazily keeps items for which a function returns true.
+
+4. What does reduce() do?
+   functools.reduce() repeatedly combines items to produce one result.
+
+5. When should you prefer a normal loop over a comprehension?
+   Use a normal loop when the operation contains complex logic or side effects.
+
+
+17. DECORATORS AND CONTEXT MANAGERS
+-----------------------------------
+1. What is a decorator?
+   A decorator wraps or modifies a function or class without changing its source body.
+
+2. What does @decorator syntax mean?
+   @log above a function is approximately equal to function = log(function).
+
+3. Why is functools.wraps used in a decorator?
+   It preserves the wrapped function's name, documentation, and metadata.
+
+4. What is a context manager?
+   It manages setup and cleanup around a block used with the with statement.
+
+5. What methods implement a context manager?
+   __enter__ and __exit__.
+
+
+18. COMMON BUILT-IN FUNCTIONS
+-----------------------------
+1. What does len() do?
+   It returns the number of items in an object.
+
+2. What do min(), max(), and sum() do?
+   They return the minimum, maximum, and total of an iterable.
+
+3. What do any() and all() do?
+   any() is true if at least one item is truthy. all() is true if every item is truthy.
+
+4. What does sorted() do?
+   It returns a new sorted list and supports key and reverse arguments.
+
+5. What does isinstance() do?
+   It checks whether an object is an instance of a class or a tuple of classes.
+
+6. What does callable() do?
+   It checks whether an object can be called.
+
+
+19. BASIC CODING QUESTIONS
+--------------------------
+1. How do you check whether a number is even?
+   Use number % 2 == 0.
+
+2. How do you swap two variables?
+   a, b = b, a
+
+3. How do you find the largest value in a list?
+   Use max(values), after handling the possibility of an empty list.
+
+4. How do you count character occurrences?
+   Use collections.Counter(text) or update a dictionary while looping.
+
+5. How do you check whether a string is a palindrome?
+   Normalize it as needed and compare text == text[::-1].
+
+6. How do you calculate a factorial?
+   Use math.factorial(n), a loop, or recursion after validating the input.
+
+7. How do you generate Fibonacci numbers?
+   Repeatedly update two values with a, b = b, a + b.
+
+8. How do you find common values in two lists?
+   Use set(list1) & set(list2) when uniqueness and hashability are acceptable.
+
+9. How do you count words in a sentence?
+   A basic solution is len(sentence.split()).
+
+10. How do you safely retrieve a possibly missing dictionary key?
+    Use dictionary.get(key, default).
